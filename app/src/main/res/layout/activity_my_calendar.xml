@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyCalendar">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="78dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/month_label_on_calendar_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/year_label_on_calendar_view" />
+
+            <TextView
+                android:id="@+id/year_label_on_calendar_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/next_year_button"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/right"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/year_label_on_calendar_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/year_label_on_calendar_view" />
+
+            <Button
+                android:id="@+id/next_month_button"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/right"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/month_label_on_calendar_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/month_label_on_calendar_view" />
+
+            <Button
+                android:id="@+id/previous_month_button"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="32dp"
+                android:background="@drawable/left"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/month_label_on_calendar_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/month_label_on_calendar_view" />
+
+            <Button
+                android:id="@+id/previous_year_button"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="32dp"
+                android:background="@drawable/left"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/year_label_on_calendar_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/year_label_on_calendar_view" />
+
+            <TableRow
+                android:id="@+id/day_row"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/month_label_on_calendar_view">
+
+                <TextView
+                    android:id="@+id/sunday_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/sunday"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/monday_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/monday"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/sunday_label"
+                    app:layout_constraintStart_toEndOf="@+id/sunday_label"
+                    app:layout_constraintTop_toTopOf="@+id/sunday_label" />
+
+                <TextView
+                    android:id="@+id/tuesday_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/tuesday"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/monday_label"
+                    app:layout_constraintStart_toEndOf="@+id/monday_label"
+                    app:layout_constraintTop_toTopOf="@+id/monday_label" />
+
+                <TextView
+                    android:id="@+id/wednesday_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/wednesday"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tuesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/tuesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/tuesday_label" />
+
+                <TextView
+                    android:id="@+id/thursday_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/thursday"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/wednesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/wednesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/wednesday_label" />
+
+                <TextView
+                    android:id="@+id/friday_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/friday"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/thursday_label"
+                    app:layout_constraintStart_toEndOf="@+id/thursday_label"
+                    app:layout_constraintTop_toTopOf="@+id/thursday_label" />
+
+                <TextView
+                    android:id="@+id/saturday_label"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/saturday"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/friday_label"
+                    app:layout_constraintStart_toEndOf="@+id/friday_label"
+                    app:layout_constraintTop_toTopOf="@+id/friday_label" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/date_row_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/day_row">
+
+                <TextView
+                    android:id="@+id/date_label_1"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/date_label_2"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/sunday_label"
+                    app:layout_constraintStart_toEndOf="@+id/sunday_label"
+                    app:layout_constraintTop_toTopOf="@+id/sunday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_3"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/monday_label"
+                    app:layout_constraintStart_toEndOf="@+id/monday_label"
+                    app:layout_constraintTop_toTopOf="@+id/monday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_4"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tuesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/tuesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/tuesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_5"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/wednesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/wednesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/wednesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_6"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/thursday_label"
+                    app:layout_constraintStart_toEndOf="@+id/thursday_label"
+                    app:layout_constraintTop_toTopOf="@+id/thursday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_7"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/friday_label"
+                    app:layout_constraintStart_toEndOf="@+id/friday_label"
+                    app:layout_constraintTop_toTopOf="@+id/friday_label" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/date_row_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_row_1">
+
+                <TextView
+                    android:id="@+id/date_label_8"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/date_label_9"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/sunday_label"
+                    app:layout_constraintStart_toEndOf="@+id/sunday_label"
+                    app:layout_constraintTop_toTopOf="@+id/sunday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_10"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/monday_label"
+                    app:layout_constraintStart_toEndOf="@+id/monday_label"
+                    app:layout_constraintTop_toTopOf="@+id/monday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_11"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tuesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/tuesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/tuesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_12"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/wednesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/wednesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/wednesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_13"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/thursday_label"
+                    app:layout_constraintStart_toEndOf="@+id/thursday_label"
+                    app:layout_constraintTop_toTopOf="@+id/thursday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_14"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/friday_label"
+                    app:layout_constraintStart_toEndOf="@+id/friday_label"
+                    app:layout_constraintTop_toTopOf="@+id/friday_label" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/date_row_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_row_2">
+
+                <TextView
+                    android:id="@+id/date_label_15"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/date_label_16"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/sunday_label"
+                    app:layout_constraintStart_toEndOf="@+id/sunday_label"
+                    app:layout_constraintTop_toTopOf="@+id/sunday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_17"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/monday_label"
+                    app:layout_constraintStart_toEndOf="@+id/monday_label"
+                    app:layout_constraintTop_toTopOf="@+id/monday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_18"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tuesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/tuesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/tuesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_19"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/wednesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/wednesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/wednesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_20"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/thursday_label"
+                    app:layout_constraintStart_toEndOf="@+id/thursday_label"
+                    app:layout_constraintTop_toTopOf="@+id/thursday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_21"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/friday_label"
+                    app:layout_constraintStart_toEndOf="@+id/friday_label"
+                    app:layout_constraintTop_toTopOf="@+id/friday_label" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/date_row_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_row_3">
+
+                <TextView
+                    android:id="@+id/date_label_22"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/date_label_23"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/sunday_label"
+                    app:layout_constraintStart_toEndOf="@+id/sunday_label"
+                    app:layout_constraintTop_toTopOf="@+id/sunday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_24"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/monday_label"
+                    app:layout_constraintStart_toEndOf="@+id/monday_label"
+                    app:layout_constraintTop_toTopOf="@+id/monday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_25"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tuesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/tuesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/tuesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_26"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/wednesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/wednesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/wednesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_27"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/thursday_label"
+                    app:layout_constraintStart_toEndOf="@+id/thursday_label"
+                    app:layout_constraintTop_toTopOf="@+id/thursday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_28"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/friday_label"
+                    app:layout_constraintStart_toEndOf="@+id/friday_label"
+                    app:layout_constraintTop_toTopOf="@+id/friday_label" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/date_row_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_row_4">
+
+                <TextView
+                    android:id="@+id/date_label_29"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/date_label_30"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/sunday_label"
+                    app:layout_constraintStart_toEndOf="@+id/sunday_label"
+                    app:layout_constraintTop_toTopOf="@+id/sunday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_31"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/monday_label"
+                    app:layout_constraintStart_toEndOf="@+id/monday_label"
+                    app:layout_constraintTop_toTopOf="@+id/monday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_32"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tuesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/tuesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/tuesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_33"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/wednesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/wednesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/wednesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_34"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/thursday_label"
+                    app:layout_constraintStart_toEndOf="@+id/thursday_label"
+                    app:layout_constraintTop_toTopOf="@+id/thursday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_35"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/friday_label"
+                    app:layout_constraintStart_toEndOf="@+id/friday_label"
+                    app:layout_constraintTop_toTopOf="@+id/friday_label" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/date_row_6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_row_5">
+
+                <TextView
+                    android:id="@+id/date_label_36"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/date_label_37"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/sunday_label"
+                    app:layout_constraintStart_toEndOf="@+id/sunday_label"
+                    app:layout_constraintTop_toTopOf="@+id/sunday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_38"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/monday_label"
+                    app:layout_constraintStart_toEndOf="@+id/monday_label"
+                    app:layout_constraintTop_toTopOf="@+id/monday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_39"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tuesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/tuesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/tuesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_40"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/wednesday_label"
+                    app:layout_constraintStart_toEndOf="@+id/wednesday_label"
+                    app:layout_constraintTop_toTopOf="@+id/wednesday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_41"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/thursday_label"
+                    app:layout_constraintStart_toEndOf="@+id/thursday_label"
+                    app:layout_constraintTop_toTopOf="@+id/thursday_label" />
+
+                <TextView
+                    android:id="@+id/date_label_42"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/friday_label"
+                    app:layout_constraintStart_toEndOf="@+id/friday_label"
+                    app:layout_constraintTop_toTopOf="@+id/friday_label" />
+
+            </TableRow>
+
+            <TextView
+                android:id="@+id/event_text_view_on_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/no_event"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_row_6"
+                app:layout_constraintVertical_bias="1.0" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

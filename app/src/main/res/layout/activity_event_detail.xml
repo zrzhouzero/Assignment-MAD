@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EventDetail">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint_layout_inside_event_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/edit_event_detail_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/edit_event"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/remove_attendee_button_on_detail_page"
+                app:layout_constraintStart_toStartOf="@+id/remove_attendee_button_on_detail_page"
+                app:layout_constraintTop_toBottomOf="@+id/remove_attendee_button_on_detail_page" />
+
+            <TextView
+                android:id="@+id/end_time_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="time"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label6"
+                app:layout_constraintTop_toTopOf="@+id/title_label6" />
+
+            <EditText
+                android:id="@+id/venue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="text"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label8"
+                app:layout_constraintTop_toTopOf="@+id/title_label8" />
+
+            <EditText
+                android:id="@+id/longitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="numberSigned|numberDecimal"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label7"
+                app:layout_constraintTop_toTopOf="@+id/title_label7" />
+
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="numberSigned|numberDecimal"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label9"
+                app:layout_constraintTop_toTopOf="@+id/title_label9" />
+
+            <TextView
+                android:id="@+id/movie"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="text"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label10"
+                app:layout_constraintTop_toTopOf="@+id/title_label10" />
+
+            <TextView
+                android:id="@+id/attendees"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="text"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label11"
+                app:layout_constraintTop_toTopOf="@+id/title_label11" />
+
+            <TextView
+                android:id="@+id/title_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/event_id"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title_label2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/event_title"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label" />
+
+            <TextView
+                android:id="@+id/title_label3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/start_date"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label2" />
+
+            <TextView
+                android:id="@+id/title_label4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/start_time"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label3" />
+
+            <TextView
+                android:id="@+id/title_label5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/end_date"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label4" />
+
+            <TextView
+                android:id="@+id/title_label6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/end_time"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label5" />
+
+            <TextView
+                android:id="@+id/title_label7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/longitude"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label8" />
+
+            <TextView
+                android:id="@+id/title_label8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/venue"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label6" />
+
+            <TextView
+                android:id="@+id/title_label9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/latitude"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label7" />
+
+            <TextView
+                android:id="@+id/title_label10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/movie"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label9" />
+
+            <TextView
+                android:id="@+id/title_label11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/attendees"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_label10" />
+
+            <TextView
+                android:id="@+id/event_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="text"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label"
+                app:layout_constraintTop_toTopOf="@+id/title_label" />
+
+            <EditText
+                android:id="@+id/event_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="text"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label2"
+                app:layout_constraintTop_toTopOf="@+id/title_label2" />
+
+            <TextView
+                android:id="@+id/start_date_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="date"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label3"
+                app:layout_constraintTop_toTopOf="@+id/title_label3" />
+
+            <TextView
+                android:id="@+id/start_time_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="time"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/title_label4"
+                app:layout_constraintTop_toTopOf="@+id/title_label4" />
+
+            <TextView
+                android:id="@+id/end_date_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:inputType="date"
+                android:text="Name"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/title_label5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/title_label5" />
+
+            <Button
+                android:id="@+id/save_event_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/save_event"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/add_attendee_button_on_detail_page"
+                app:layout_constraintStart_toStartOf="@+id/add_attendee_button_on_detail_page"
+                app:layout_constraintTop_toBottomOf="@+id/add_attendee_button_on_detail_page" />
+
+            <Button
+                android:id="@+id/remove_attendee_button_on_detail_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="Remove Attendees"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/attendees" />
+
+            <Button
+                android:id="@+id/add_attendee_button_on_detail_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="Add Attendees"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/remove_attendee_button_on_detail_page"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/remove_attendee_button_on_detail_page"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

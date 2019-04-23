@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_event_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddEvent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint_layout_inside_add_event_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button_select_attendees"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/colorButtonNormal"
+                android:fontFamily="sans-serif-thin"
+                android:text="Add Attendees"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/selected_attendees"
+                app:layout_constraintTop_toBottomOf="@+id/selected_attendees" />
+
+            <Button
+                android:id="@+id/button_delete_attendees"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:background="?android:attr/colorButtonNormal"
+                android:fontFamily="sans-serif-thin"
+                android:text="Delete Attendees"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/button_select_movie"
+                app:layout_constraintTop_toBottomOf="@+id/selected_attendees" />
+
+            <TextView
+                android:id="@+id/selected_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/selected_start_time"
+                app:layout_constraintTop_toBottomOf="@+id/selected_start_time" />
+
+            <TextView
+                android:id="@+id/selected_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/title_input"
+                app:layout_constraintTop_toBottomOf="@+id/title_input" />
+
+            <TextView
+                android:id="@+id/selected_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/selected_end_date"
+                app:layout_constraintTop_toBottomOf="@+id/selected_end_date" />
+
+            <Button
+                android:id="@+id/button_select_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="?android:attr/colorButtonNormal"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/start_time"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/selected_start_time"
+                app:layout_constraintEnd_toEndOf="@+id/button_select_start_date"
+                app:layout_constraintTop_toTopOf="@+id/selected_start_time" />
+
+            <Button
+                android:id="@+id/button_select_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="?android:attr/colorButtonNormal"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/start_date"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/selected_start_date"
+                app:layout_constraintEnd_toEndOf="@+id/title_input"
+                app:layout_constraintTop_toTopOf="@+id/selected_start_date" />
+
+            <TextView
+                android:id="@+id/selected_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/latitude_input"
+                app:layout_constraintTop_toBottomOf="@+id/latitude_input" />
+
+            <TextView
+                android:id="@+id/selected_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/selected_start_date"
+                app:layout_constraintTop_toBottomOf="@+id/selected_start_date" />
+
+            <Button
+                android:id="@+id/button_select_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="?android:attr/colorButtonNormal"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/end_time"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/selected_end_time"
+                app:layout_constraintEnd_toEndOf="@+id/button_select_end_date"
+                app:layout_constraintTop_toTopOf="@+id/selected_end_time" />
+
+            <EditText
+                android:id="@+id/venue_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:hint="@string/venue"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/button_select_end_time"
+                app:layout_constraintHorizontal_bias="0.504"
+                app:layout_constraintStart_toStartOf="@+id/selected_end_time"
+                app:layout_constraintTop_toBottomOf="@+id/selected_end_time" />
+
+            <EditText
+                android:id="@+id/latitude_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:hint="@string/enter_latitude"
+                android:importantForAutofill="no"
+                android:inputType="numberSigned|numberDecimal"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/longitude_input"
+                app:layout_constraintStart_toStartOf="@+id/longitude_input"
+                app:layout_constraintTop_toBottomOf="@+id/longitude_input" />
+
+            <Button
+                android:id="@+id/button_select_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="?android:attr/colorButtonNormal"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/movie"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/selected_movie"
+                app:layout_constraintEnd_toEndOf="@+id/latitude_input"
+                app:layout_constraintTop_toTopOf="@+id/selected_movie" />
+
+            <EditText
+                android:id="@+id/title_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:hint="@string/event_title"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_add_event"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/add_event"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_select_attendees" />
+
+            <EditText
+                android:id="@+id/longitude_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:fontFamily="sans-serif-thin"
+                android:hint="@string/enter_longitude"
+                android:inputType="numberSigned|numberDecimal"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/venue_input"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="@+id/venue_input"
+                app:layout_constraintTop_toBottomOf="@+id/venue_input" />
+
+            <TextView
+                android:id="@+id/selected_attendees"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/selected_movie"
+                app:layout_constraintTop_toBottomOf="@+id/selected_movie" />
+
+            <Button
+                android:id="@+id/button_select_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="?android:attr/colorButtonNormal"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/end_date"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/selected_end_date"
+                app:layout_constraintEnd_toEndOf="@+id/button_select_start_time"
+                app:layout_constraintTop_toTopOf="@+id/selected_end_date" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

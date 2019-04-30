@@ -42,7 +42,6 @@ import model.exceptions.DateTimeException;
 import model.exceptions.EmptySlotException;
 import model.exceptions.LatitudeOutOfBoundException;
 import model.exceptions.LongitudeOutOfBoundException;
-import model.exceptions.NoMovieFoundException;
 
 public class EventDetail extends AppCompatActivity implements MovieSelectionFragment.MoviePass {
 
@@ -287,9 +286,6 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
                         throw new LatitudeOutOfBoundException();
                     step++;
 
-                    if (currentSelectedMovie == null) throw new NoMovieFoundException();
-                    step++;
-
                     String tempId = id.getText().toString();
 
                     allEvents.removeIf(e -> e.getId().equals(id.getText().toString()));
@@ -301,16 +297,28 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
                     PrintWriter writer = new PrintWriter(new FileWriter(eventFile, false));
                     for (Event e: allEvents) {
                         StringBuilder builder = new StringBuilder();
-                        for (String s: e.getAttendees()) {
-                            builder.append(s).append(":");
+                        if (e.getMovie() == null) {
+                            writer.write("\"" + e.getId() + "\",\"" + e.getTitle() + "\",\"" + writeFormat.format(e.getStartDate()) +
+                                    "\",\"" + writeFormat.format(e.getEndDate()) + "\",\"" + e.getVenue() + "\",\"" + e.getLocation().getLatitude() + ", " +
+                                    e.getLocation().getLongitude() + "\"\n");
                         }
-                        writer.write("\"" + e.getId() + "\",\"" + e.getTitle() + "\",\"" + writeFormat.format(e.getStartDate()) +
-                                "\",\"" + writeFormat.format(e.getEndDate()) + "\",\"" + e.getVenue() + "\",\"" + e.getLocation().getLatitude() + ", " +
-                                e.getLocation().getLongitude() + "\",\"" + e.getMovie().getTitle() + "\",\"" + builder.toString() + "\"\n");
+                        if (e.getAttendees() == null) {
+                            writer.write("\"" + e.getId() + "\",\"" + e.getTitle() + "\",\"" + writeFormat.format(e.getStartDate()) +
+                                    "\",\"" + writeFormat.format(e.getEndDate()) + "\",\"" + e.getVenue() + "\",\"" + e.getLocation().getLatitude() + ", " +
+                                    e.getLocation().getLongitude() + "\",\"" + e.getMovie().getTitle() + "\"\n");
+                        }
+                        if (e.getMovie() != null && e.getAttendees() != null) {
+                            for (String s: e.getAttendees()) {
+                                builder.append(s).append(":");
+                            }
+                            writer.write("\"" + e.getId() + "\",\"" + e.getTitle() + "\",\"" + writeFormat.format(e.getStartDate()) +
+                                    "\",\"" + writeFormat.format(e.getEndDate()) + "\",\"" + e.getVenue() + "\",\"" + e.getLocation().getLatitude() + ", " +
+                                    e.getLocation().getLongitude() + "\",\"" + e.getMovie().getTitle() + "\",\"" + builder.toString() + "\"\n");
+                        }
                     }
                     writer.close();
                     Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_LONG).show();
-                } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException | NoMovieFoundException | IOException e) {
+                } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException | IOException e) {
                     Log.e(TAG, "onClick: " + e.getMessage());
                     AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
                     alertDialog.setTitle("Alert");
@@ -372,8 +380,7 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
         errorMessages[2] = "venue cannot be empty";
         errorMessages[3] = "longitude should be in [-180, 180]";
         errorMessages[4] = "latitude should be in [-90, 90]";
-        errorMessages[5] = "please select a movie";
-        errorMessages[6] = "unknown exception happened";
+        errorMessages[5] = "unknown exception happened";
     }
 
     @Override

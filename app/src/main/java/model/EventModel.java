@@ -26,7 +26,7 @@ public class EventModel {
         }
         while (eventIn.hasNext()) {
             String[] temp = eventIn.nextLine().replace("\"", "").split(",");
-            String datePattern = "M/dd/yyyy H:mm:ss a";
+            String datePattern = "dd/MM/yyyy H:mm:ss a";
             SimpleDateFormat format = new SimpleDateFormat(datePattern);
 
             EventImpl tempEvent = new EventImpl(temp[0], temp[1], format.parse(temp[2].toUpperCase()), format.parse(temp[3].toUpperCase()),

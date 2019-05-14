@@ -55,5 +55,6 @@ public class DisplaySoonestEventOnMapsActivity extends FragmentActivity implemen
         // move camera to Melbourne
         LatLng melbourne = new LatLng(-37.8136, 144.9631);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(melbourne));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(melbourne, 10));
     }
 }

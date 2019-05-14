@@ -77,18 +77,20 @@ public class EventModel {
     }
 
     public ArrayList<EventImpl> getSoonest3Events() {
+        ArrayList<EventImpl> copiedEvents = new ArrayList<>(this.events);
+
         ArrayList<EventImpl> result = new ArrayList<>();
-        this.events.sort(new Comparator<EventImpl>() {
+        copiedEvents.sort(new Comparator<EventImpl>() {
             @Override
             public int compare(EventImpl o1, EventImpl o2) {
                 return o1.getStartDate().compareTo(o2.getStartDate());
             }
         });
-        if (this.events.size() < 3) {
+        if (copiedEvents.size() < 3) {
             return this.events;
         } else {
             for (int i = 0; i < 3; i++) {
-                result.add(this.events.get(i));
+                result.add(copiedEvents.get(i));
             }
             return result;
         }

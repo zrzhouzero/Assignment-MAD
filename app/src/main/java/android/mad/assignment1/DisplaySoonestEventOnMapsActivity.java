@@ -31,9 +31,7 @@ public class DisplaySoonestEventOnMapsActivity extends FragmentActivity implemen
 
         Intent in = getIntent();
         soonestEvents = (ArrayList<EventImpl>) in.getSerializableExtra("SoonestEvents");
-
     }
-
 
     /**
      * Manipulates the map once available.

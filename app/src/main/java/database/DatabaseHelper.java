@@ -24,9 +24,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String EVENT_COL_7 = "LONGITUDE";
     private static final String EVENT_COL_8 = "MOVIE_ID";
 
-    public static final String ATTENDANCE_TABLE_NAME = "attendance_table";
-    public static final String ATTENDANCE_COL_1 = "EVENT_ID";
-    public static final String ATTENDANCE_COL_2 = "ATTENDEE_NAME";
+    private static final String ATTENDANCE_TABLE_NAME = "attendance_table";
+    private static final String ATTENDANCE_COL_1 = "EVENT_ID";
+    private static final String ATTENDANCE_COL_2 = "ATTENDEE_NAME";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);

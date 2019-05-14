@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Scanner;
 
+import database.DatabaseHelper;
 import model.EventImpl;
 import model.EventModel;
 
@@ -35,6 +36,7 @@ public class EventList extends AppCompatActivity {
     private ConstraintLayout constraintLayout;
     private RecyclerView eventList;
     private EventListAdapter adapter;
+    private DatabaseHelper myDb;
 
     private final static File directory = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass_1");
     private final static File movieFile = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass_1/movies.txt");
@@ -45,6 +47,8 @@ public class EventList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
         Log.d(TAG, "onCreate: started.");
+
+        myDb = new DatabaseHelper(this);
 
         try {
             appInitialisation();
@@ -66,6 +70,15 @@ public class EventList extends AppCompatActivity {
             public void onClick(View v) {
                 Intent showAddEventPage = new Intent(v.getContext(), AddEvent.class);
                 v.getContext().startActivity(showAddEventPage);
+            }
+        });
+
+        Button recentEventsOnMapButton = findViewById(R.id.mapButton);
+        recentEventsOnMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent displaySoonestEvent = new Intent(v.getContext(), DisplaySoonestEventOnMapsActivity.class);
+                v.getContext().startActivity(displaySoonestEvent);
             }
         });
 

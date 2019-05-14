@@ -21,11 +21,15 @@ public class EventModel {
         Scanner eventIn = new Scanner(eventsFile);
         Scanner movieIn = new Scanner(moviesFile);
         while (movieIn.hasNext()) {
-            String[] temp = movieIn.nextLine().replace("\"", "").split(",");
+            String str = movieIn.nextLine();
+            if (str.contains("//")) continue;
+            String[] temp = str.replace("\"", "").split(",");
             moviesInLibrary.add(new MovieImpl(temp[0], temp[1], Integer.parseInt(temp[2]), temp[3]));
         }
         while (eventIn.hasNext()) {
-            String[] temp = eventIn.nextLine().replace("\"", "").split(",");
+            String str = eventIn.nextLine();
+            if (str.contains("//")) continue;
+            String[] temp = str.replace("\"", "").split(",");
             String datePattern = "dd/MM/yyyy H:mm:ss a";
             SimpleDateFormat format = new SimpleDateFormat(datePattern);
 

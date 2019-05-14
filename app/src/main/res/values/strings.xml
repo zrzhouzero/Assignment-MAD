@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assignment1_MAD</string>
+    <string name="app_name">Assignment_MAD</string>
     <string name="add_event">Add Event</string>
     <string name="no_movie_found">No Movie</string>
     <string name="event_id">Event ID</string>
@@ -41,4 +41,6 @@
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
     <string name="no_event">No Event</string>
+    <string name="recent_events_on_map">3 Recent Events on Map</string>
+    <string name="title_activity_display_soonest_event_on_maps">Map</string>
 </resources>

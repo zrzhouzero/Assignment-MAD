@@ -1,6 +1,8 @@
 package model;
 
-public class MovieImpl extends AbstractMovie {
+import java.io.Serializable;
+
+public class MovieImpl implements Movie, Serializable {
 
     private String id;
     private String title;

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class EventModel {
@@ -73,6 +74,24 @@ public class EventModel {
             }
         }
         return null;
+    }
+
+    public ArrayList<EventImpl> getSoonest3Events() {
+        ArrayList<EventImpl> result = new ArrayList<>();
+        this.events.sort(new Comparator<EventImpl>() {
+            @Override
+            public int compare(EventImpl o1, EventImpl o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
+        if (this.events.size() < 3) {
+            return this.events;
+        } else {
+            for (int i = 0; i < 3; i++) {
+                result.add(this.events.get(i));
+            }
+            return result;
+        }
     }
 
 }

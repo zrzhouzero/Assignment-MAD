@@ -256,7 +256,7 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
             public void onClick(View v) {
                 // save event
                 String srcDateTimeFormat = "yyyy/M/dd hh:mm";
-                String tarDateTimeFormat = "M/dd/yyyy H:mm:ss a";
+                String tarDateTimeFormat = "dd/MM/yyyy H:mm:ss a";
                 SimpleDateFormat readFormat = new SimpleDateFormat(srcDateTimeFormat);
                 SimpleDateFormat writeFormat = new SimpleDateFormat(tarDateTimeFormat);
 

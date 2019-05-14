@@ -78,6 +78,7 @@ public class EventList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent displaySoonestEvent = new Intent(v.getContext(), DisplaySoonestEventOnMapsActivity.class);
+                displaySoonestEvent.putExtra("SoonestEvents", model.getSoonest3Events());
                 v.getContext().startActivity(displaySoonestEvent);
             }
         });

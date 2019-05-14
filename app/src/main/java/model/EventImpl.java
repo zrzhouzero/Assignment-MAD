@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class EventImpl extends AbstractEvent {
+public class EventImpl implements Event, Serializable {
 
     private String id;
     private String title;

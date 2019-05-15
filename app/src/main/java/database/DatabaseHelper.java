@@ -296,4 +296,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         }
     }
 
+    public void deleteEvent(EventImpl event) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String eventCon = EVENT_COL_1 + " = " + event.getId();
+        db.delete(EVENT_TABLE_NAME, eventCon, null);
+
+        String attendeeCon = ATTENDANCE_COL_1 + " = " + event.getId();
+        db.delete(ATTENDANCE_TABLE_NAME, attendeeCon, null);
+    }
+
 }

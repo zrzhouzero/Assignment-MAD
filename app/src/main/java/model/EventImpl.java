@@ -91,4 +91,8 @@ public class EventImpl implements Event, Serializable {
         this.movie = movie;
     }
 
+    @Override
+    public String toString() {
+        return id + " " + title + " " + movie.getTitle() + " " + attendees.size();
+    }
 }

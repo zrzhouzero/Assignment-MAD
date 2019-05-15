@@ -1,10 +1,28 @@
 package database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import model.EventImpl;
+import model.Location;
+import model.MovieImpl;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private Context context;
+
+    private static final String TAG = "DatabaseHelper";
 
     private static final String DATABASE_NAME = "MADA1.db";
 
@@ -30,30 +48,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.context = context;
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.d(TAG, "DatabaseHelper: Constructed.");
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + MOVIE_TABLE_NAME + " (" +
-                MOVIE_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                MOVIE_COL_1 + " TEXT PRIMARY KEY, " +
                 MOVIE_COL_2 + " TEXT, " +
                 MOVIE_COL_3 + " NUMERIC, " +
                 MOVIE_COL_4 + " TEXT);");
+
         db.execSQL("CREATE TABLE " + EVENT_TABLE_NAME + " (" +
-                EVENT_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                EVENT_COL_1 + " TEXT PRIMARY KEY, " +
                 EVENT_COL_2 + " TEXT, " +
                 EVENT_COL_3 + " TEXT, " +
                 EVENT_COL_4 + " TEXT, " +
                 EVENT_COL_5 + " TEXT, " +
                 EVENT_COL_6 + " REAL, " +
                 EVENT_COL_7 + " REAL, " +
-                EVENT_COL_8 + " INTEGER, " +
+                EVENT_COL_8 + " TEXT, " +
                 "FOREIGN KEY (" + EVENT_COL_8 + ") REFERENCES " + MOVIE_TABLE_NAME + "(" + MOVIE_COL_1 + "));");
+
         db.execSQL("CREATE TABLE " + ATTENDANCE_TABLE_NAME + " (" +
-                ATTENDANCE_COL_1 + " INTEGER, " +
+                ATTENDANCE_COL_1 + " TEXT, " +
                 ATTENDANCE_COL_2 + " TEXT, " +
+                "PRIMARY KEY (" + ATTENDANCE_COL_1 + ", " + ATTENDANCE_COL_2 + "), " +
                 "FOREIGN KEY (" + ATTENDANCE_COL_1 + ") REFERENCES " + EVENT_TABLE_NAME + "(" + EVENT_COL_1 + "));");
+
+        Log.d(TAG, "onCreate: onCreate.");
     }
 
     @Override
@@ -63,4 +88,125 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ATTENDANCE_TABLE_NAME + ";");
         onCreate(db);
     }
+
+    public void loadMoviesFromFile() throws IOException, NumberFormatException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        InputStream movieStream = context.getAssets().open("movies.txt");
+        Scanner in = new Scanner(movieStream);
+        while (in.hasNext()) {
+            String str = in.nextLine();
+            if (str.contains("//")) {
+                continue;
+            }
+            String[] temp = str.replace("\"", "").split(",");
+            values.put(MOVIE_COL_1, temp[0]);
+            values.put(MOVIE_COL_2, temp[1]);
+            values.put(MOVIE_COL_3, Integer.parseInt(temp[2]));
+            values.put(MOVIE_COL_4, temp[3]);
+            db.insert(MOVIE_TABLE_NAME, null, values);
+        }
+    }
+
+    public void loadEventsFromFile() throws IOException, NumberFormatException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        InputStream eventStream = context.getAssets().open("events.txt");
+        Scanner in = new Scanner(eventStream);
+        while (in.hasNext()) {
+            String str = in.nextLine();
+            if (str.contains("//")) {
+                continue;
+            }
+            String[] temp = str.replace("\"", "").split(",");
+            values.put(EVENT_COL_1, temp[0]);
+            values.put(EVENT_COL_2, temp[1]);
+            values.put(EVENT_COL_3, temp[2].toUpperCase());
+            values.put(EVENT_COL_4, temp[3].toUpperCase());
+            values.put(EVENT_COL_5, temp[4]);
+            values.put(EVENT_COL_6, Double.parseDouble(temp[5]));
+            values.put(EVENT_COL_7, Double.parseDouble(temp[6]));
+
+            db.insert(EVENT_TABLE_NAME, null, values);
+        }
+    }
+
+    public MovieImpl findMovieById(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + MOVIE_TABLE_NAME + " WHERE " +
+                MOVIE_COL_1 + " = " + id, null);
+        cursor.moveToFirst();
+        MovieImpl movie = new MovieImpl(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3));
+        cursor.close();
+        return movie;
+    }
+
+    public EventImpl findEventById(String id) throws ParseException {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor eventCursor = db.rawQuery("SELECT * FROM " + EVENT_TABLE_NAME + " WHERE " +
+                EVENT_COL_1 + " = " + id + ";", null);
+        eventCursor.moveToFirst();
+
+        String datePattern = "dd/MM/yyyy H:mm:ss a";
+        SimpleDateFormat format = new SimpleDateFormat(datePattern);
+
+        EventImpl event = new EventImpl(eventCursor.getString(0), eventCursor.getString(1), format.parse(eventCursor.getString(2)),
+                format.parse(eventCursor.getString(3)), eventCursor.getString(4), new Location(eventCursor.getDouble(5), eventCursor.getDouble(6)));
+
+        // set movie
+        if (eventCursor.getString(7) != null && !eventCursor.getString(7).equals("")) {
+            event.setMovie(findMovieById(eventCursor.getString(7)));
+        }
+
+        // set attendee
+        if (getAttendeesNamesByEventId(id) != null) {
+            event.setAttendees(getAttendeesNamesByEventId(id));
+        }
+
+        eventCursor.close();
+        return event;
+    }
+
+    public ArrayList<String> getAttendeesNamesByEventId(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> result = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT " + ATTENDANCE_COL_2 + " FROM " + ATTENDANCE_TABLE_NAME + " WHERE " +
+                ATTENDANCE_COL_1 + " = " + id + ";", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                result.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return result;
+    }
+
+    public ArrayList<EventImpl> reloadEventList() throws ParseException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> ids = new ArrayList<>();
+        ArrayList<EventImpl> events = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT " + EVENT_COL_1 + " FROM " + EVENT_TABLE_NAME + ";", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                ids.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        for (String id : ids) {
+            events.add(findEventById(id));
+        }
+
+        cursor.close();
+        return events;
+    }
+
 }

@@ -49,6 +49,13 @@ public class EventList extends AppCompatActivity {
         Log.d(TAG, "onCreate: started.");
 
         myDb = new DatabaseHelper(this);
+        try {
+            myDb.loadMoviesFromFile();
+            myDb.loadEventsFromFile();
+        } catch (Exception e) {
+            Log.e(TAG, "load file: failed");
+            e.printStackTrace();
+        }
 
         try {
             appInitialisation();

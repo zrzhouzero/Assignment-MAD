@@ -36,4 +36,8 @@ public class MovieImpl implements Movie, Serializable {
         return posterName;
     }
 
+    @Override
+    public String toString() {
+        return id + " " + title + " " + year + " " + posterName;
+    }
 }

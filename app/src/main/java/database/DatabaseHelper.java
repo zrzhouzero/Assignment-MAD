@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import model.EventImpl;
 import model.Location;
 import model.MovieImpl;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     private Context context;
 
@@ -137,11 +138,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + MOVIE_TABLE_NAME + " WHERE " +
-                MOVIE_COL_1 + " = " + id, null);
+                MOVIE_COL_1 + " = " + id + ";", null);
         cursor.moveToFirst();
         MovieImpl movie = new MovieImpl(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3));
         cursor.close();
         return movie;
+    }
+
+    public String findMovieIdByName(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT " + MOVIE_COL_1 + " FROM " + MOVIE_TABLE_NAME + " WHERE " +
+                MOVIE_COL_2 + " = \"" + name + "\";", null);
+        String ans = "";
+        if (cursor.moveToFirst()) {
+            ans = cursor.getString(0);
+        }
+        cursor.close();
+        return ans;
     }
 
     public EventImpl findEventById(String id) throws ParseException {
@@ -207,6 +221,79 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return events;
+    }
+
+    public void insertEvent(EventImpl event) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        String datePattern = "dd/MM/yyyy H:mm:ss a";
+        SimpleDateFormat format = new SimpleDateFormat(datePattern);
+
+        values.put(EVENT_COL_1, event.getId());
+        values.put(EVENT_COL_2, event.getTitle());
+        values.put(EVENT_COL_3, format.format(event.getStartDate()));
+        values.put(EVENT_COL_4, format.format(event.getEndDate()));
+        values.put(EVENT_COL_5, event.getVenue());
+        values.put(EVENT_COL_6, event.getLocation().getLatitude());
+        values.put(EVENT_COL_7, event.getLocation().getLongitude());
+
+        if (event.getMovie() != null) {
+            String movieId = findMovieIdByName(event.getMovie().getTitle());
+            values.put(EVENT_COL_8, movieId);
+        }
+
+        db.insert(EVENT_TABLE_NAME, null, values);
+
+        if (event.getAttendees() != null && event.getAttendees().size() > 0) {
+            String deleteCon = ATTENDANCE_COL_1 + " = " + event.getId();
+            db.delete(ATTENDANCE_TABLE_NAME, deleteCon, null);
+
+            ContentValues attendeeValues = new ContentValues();
+            for (String s : event.getAttendees()) {
+                attendeeValues.put(ATTENDANCE_COL_1, event.getId());
+                attendeeValues.put(ATTENDANCE_COL_2, s);
+
+                db.insert(ATTENDANCE_TABLE_NAME, null, attendeeValues);
+            }
+        }
+    }
+
+    public void updateEvent(EventImpl event) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        String datePattern = "dd/MM/yyyy H:mm:ss a";
+        SimpleDateFormat format = new SimpleDateFormat(datePattern);
+
+        values.put(EVENT_COL_2, event.getTitle());
+        values.put(EVENT_COL_3, format.format(event.getStartDate()));
+        values.put(EVENT_COL_4, format.format(event.getEndDate()));
+        values.put(EVENT_COL_5, event.getVenue());
+        values.put(EVENT_COL_6, event.getLocation().getLatitude());
+        values.put(EVENT_COL_7, event.getLocation().getLongitude());
+
+        if (event.getMovie() != null) {
+            String movieId = findMovieIdByName(event.getMovie().getTitle());
+            values.put(EVENT_COL_8, movieId);
+        }
+
+        String con = EVENT_COL_1 + " = " + event.getId();
+
+        db.update(EVENT_TABLE_NAME, values, con, null);
+
+        if (event.getAttendees() != null && event.getAttendees().size() > 0) {
+            String deleteCon = ATTENDANCE_COL_1 + " = " + event.getId();
+            db.delete(ATTENDANCE_TABLE_NAME, deleteCon, null);
+
+            ContentValues attendeeValues = new ContentValues();
+            for (String s : event.getAttendees()) {
+                attendeeValues.put(ATTENDANCE_COL_1, event.getId());
+                attendeeValues.put(ATTENDANCE_COL_2, s);
+
+                db.insert(ATTENDANCE_TABLE_NAME, null, attendeeValues);
+            }
+        }
     }
 
 }

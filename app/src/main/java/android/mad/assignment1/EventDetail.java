@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 
+import database.DatabaseHelper;
 import model.Event;
 import model.EventImpl;
 import model.Location;
@@ -293,6 +294,9 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
                     event.setMovie(currentSelectedMovie);
                     event.setAttendees(currentSelectedAttendees);
                     allEvents.add(event);
+
+                    DatabaseHelper db = new DatabaseHelper(v.getContext());
+                    db.updateEvent(event);
 
                     PrintWriter writer = new PrintWriter(new FileWriter(eventFile, false));
                     for (Event e: allEvents) {

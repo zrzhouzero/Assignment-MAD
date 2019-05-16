@@ -1,30 +1,22 @@
 package android.mad.assignment1;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +24,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 
+import database.DatabaseHelper;
+import model.EventImpl;
+import model.Location;
 import model.MovieImpl;
 import model.exceptions.DateTimeException;
 import model.exceptions.EmptySlotException;
@@ -51,8 +46,6 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
     private ArrayList<String> selectedAttendees = new ArrayList<>();
     private TextView selectedAttendeesTextView;
 
-    private final static File eventFile = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass_1/events.txt");
-
     private String[] errorMessages;
 
     @Override
@@ -62,7 +55,7 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
 
         Log.d(TAG, "onCreate: called.");
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/M/dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy/M/dd");
         initialiseErrorMessages();
 
         TextView titleInput = findViewById(R.id.title_input);
@@ -110,12 +103,7 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
             int mMonth = c.get(Calendar.MONTH);
             int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    selectedStartDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
-                }
-            }, mYear, mMonth, mDay);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> selectedStartDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth), mYear, mMonth, mDay);
             datePickerDialog.show();
         });
 
@@ -128,12 +116,7 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
             int mMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    selectedStartTime.setText(hourOfDay + ":" + minute);
-                }
-            }, mHour, mMinute, false);
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> selectedStartTime.setText(hourOfDay + ":" + minute), mHour, mMinute, false);
             timePickerDialog.show();
         });
 
@@ -146,12 +129,7 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
             int mMonth = c.get(Calendar.MONTH);
             int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    selectedEndDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
-                }
-            }, mYear, mMonth, mDay);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, monthOfYear, dayOfMonth) -> selectedEndDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth), mYear, mMonth, mDay);
             datePickerDialog.show();
         });
 
@@ -164,121 +142,87 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
             int mMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    selectedEndTime.setText(hourOfDay + ":" + minute);
-                }
-            }, mHour, mMinute, false);
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> selectedEndTime.setText(hourOfDay + ":" + minute), mHour, mMinute, false);
             timePickerDialog.show();
         });
 
-        movieButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager manager = getSupportFragmentManager();
-                MovieSelectionFragment fragment = new MovieSelectionFragment();
-                fragment.show(manager, "select_a_movie");
-            }
+        movieButton.setOnClickListener(v -> {
+            FragmentManager manager = getSupportFragmentManager();
+            MovieSelectionFragment fragment = new MovieSelectionFragment();
+            fragment.show(manager, "select_a_movie");
         });
 
-        addAttendeeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-                startActivityForResult(intent, CODE_PICK_CONTACTS);
-            }
+        addAttendeeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+            startActivityForResult(intent, CODE_PICK_CONTACTS);
         });
 
-        removeAttendeeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddEvent.this);
-                mBuilder.setTitle("Choose an item");
-                String[] temp = selectedAttendees.toArray(new String[selectedAttendees.size()]);
-                mBuilder.setSingleChoiceItems(temp, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        selectedAttendees.remove(i);
-                        reloadAttendees();
-                        dialogInterface.dismiss();
-                    }
-                });
+        removeAttendeeButton.setOnClickListener(v -> {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddEvent.this);
+            mBuilder.setTitle("Choose an item");
+            String[] temp = selectedAttendees.toArray(new String[selectedAttendees.size()]);
+            mBuilder.setSingleChoiceItems(temp, -1, (dialogInterface, i) -> {
+                selectedAttendees.remove(i);
+                reloadAttendees();
+                dialogInterface.dismiss();
+            });
 
-                AlertDialog mDialog = mBuilder.create();
-                mDialog.show();
-            }
+            AlertDialog mDialog = mBuilder.create();
+            mDialog.show();
         });
 
-        addEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        addEventButton.setOnClickListener(v -> {
 
-                String srcDateTimeFormat = "yyyy/M/dd hh:mm";
-                String tarDateTimeFormat = "M/dd/yyyy H:mm:ss a";
-                SimpleDateFormat readFormat = new SimpleDateFormat(srcDateTimeFormat);
-                SimpleDateFormat writeFormat = new SimpleDateFormat(tarDateTimeFormat);
+            String srcDateTimeFormat = "yyyy/M/dd hh:mm";
+            SimpleDateFormat readFormat = new SimpleDateFormat(srcDateTimeFormat);
 
-                int step = 0;
-                try {
-                    String tempEventTitle = titleInput.getText().toString();
-                    if (tempEventTitle.trim().equals("")) throw new EmptySlotException();
-                    step++;
+            int step = 0;
+            try {
+                String tempEventTitle = titleInput.getText().toString();
+                if (tempEventTitle.trim().equals("")) throw new EmptySlotException();
+                step++;
 
-                    Date tempStartDateTime = readFormat.parse(selectedStartDate.getText().toString() + " " + selectedStartTime.getText().toString());
-                    Date tempEndDateTime = readFormat.parse(selectedEndDate.getText().toString() + " " + selectedEndTime.getText().toString());
-                    if (tempStartDateTime.compareTo(tempEndDateTime) > 0)
-                        throw new DateTimeException();
-                    step++;
+                Date tempStartDateTime = readFormat.parse(selectedStartDate.getText().toString() + " " + selectedStartTime.getText().toString());
+                Date tempEndDateTime = readFormat.parse(selectedEndDate.getText().toString() + " " + selectedEndTime.getText().toString());
+                if (tempStartDateTime.compareTo(tempEndDateTime) > 0) throw new DateTimeException();
+                step++;
 
-                    String tempVenue = venueInput.getText().toString();
-                    if (tempVenue.trim().equals("")) throw new EmptySlotException();
-                    step++;
+                String tempVenue = venueInput.getText().toString();
+                if (tempVenue.trim().equals("")) throw new EmptySlotException();
+                step++;
 
-                    double tempLongitude = Double.parseDouble(longitudeInput.getText().toString());
-                    if (tempLongitude >= 180 || tempLongitude <= -180)
-                        throw new LongitudeOutOfBoundException();
-                    step++;
+                double tempLongitude = Double.parseDouble(longitudeInput.getText().toString());
+                if (tempLongitude >= 180 || tempLongitude <= -180)
+                    throw new LongitudeOutOfBoundException();
+                step++;
 
-                    double tempLatitude = Double.parseDouble(latitudeInput.getText().toString());
-                    if (tempLatitude >= 90 || tempLatitude <= -90)
-                        throw new LatitudeOutOfBoundException();
-                    step++;
+                double tempLatitude = Double.parseDouble(latitudeInput.getText().toString());
+                if (tempLatitude >= 90 || tempLatitude <= -90)
+                    throw new LatitudeOutOfBoundException();
+                step++;
 
-                    if (selectedMovie == null) throw new NoMovieFoundException();
-                    step++;
+                if (selectedMovie == null) throw new NoMovieFoundException();
+                step++;
 
-                    StringBuilder builder = new StringBuilder();
-                    for (String s: selectedAttendees) {
-                        builder.append(s).append(":");
-                    }
+                String tempId = (tempEventTitle.charAt(0) + "" + tempVenue.charAt(0)).trim();
 
-                    String tempId = tempEventTitle.charAt(0) + "" + tempVenue.charAt(0);
+                DatabaseHelper helper = new DatabaseHelper(v.getContext());
+                helper.insertEvent(new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new Location(tempLatitude, tempLongitude), selectedMovie, selectedAttendees));
 
-                    PrintWriter writer = new PrintWriter(new FileWriter(eventFile, true));
-                    writer.write("\"" + tempId + "\",\"" + tempEventTitle + "\",\"" + writeFormat.format(tempStartDateTime) +
-                            "\",\"" + writeFormat.format(tempEndDateTime) + "\",\"" + tempVenue + "\",\"" + tempLatitude + ", " +
-                            tempLongitude + "\",\"" + selectedMovie.getTitle() + "\",\"" + builder.toString() + "\"\n");
-                    writer.close();
-                    Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_LONG).show();
-                } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException | NoMovieFoundException | IOException e) {
-                    Log.e(TAG, "onClick: " + e.getMessage());
-                    AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage(errorMessages[step]);
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                    return;
-                }
-
-                Intent intent = new Intent(v.getContext(), EventList.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_LONG).show();
+            } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException | NoMovieFoundException e) {
+                Log.e(TAG, "onClick: " + e.getMessage());
+                AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage(errorMessages[step]);
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        (dialog, which) -> dialog.dismiss());
+                alertDialog.show();
+                return;
             }
+
+            Intent intent = new Intent(v.getContext(), EventList.class);
+            startActivity(intent);
         });
 
     }
@@ -344,7 +288,7 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
 
     private void reloadAttendees() {
         if (this.selectedAttendees.size() > 1) {
-            this.selectedAttendeesTextView.setText(this.selectedAttendees.get(0) + " and " + String.valueOf(this.selectedAttendees.size() - 1) + " more.");
+            this.selectedAttendeesTextView.setText(this.selectedAttendees.get(0) + " and " + (this.selectedAttendees.size() - 1) + " more.");
         } else if (this.selectedAttendees.size() == 1) {
             this.selectedAttendeesTextView.setText(this.selectedAttendees.get(0));
         } else {

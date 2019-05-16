@@ -3,7 +3,6 @@ package android.mad.assignment1;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -11,22 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.ParseException;
+import java.util.ArrayList;
 
-import model.EventModel;
+import database.DatabaseHelper;
 import model.MovieImpl;
 
 public class MovieSelectionFragment extends DialogFragment {
 
     private static final String TAG = "MovieSelectionFragment";
-
-    private final static File movieFile = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass_1/movies.txt");
-    private final static File eventFile = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass_1/events.txt");
 
     private MoviePass moviePass;
 
@@ -50,28 +43,20 @@ public class MovieSelectionFragment extends DialogFragment {
 
         ListView listView = view.findViewById(R.id.fragment_movieimp_list);
 
-        EventModel model = new EventModel();
-        try {
-            model.initialisation(eventFile, movieFile);
-        } catch (FileNotFoundException | ParseException e) {
-            Log.e(TAG, "onCreateView: " + e.getMessage());
-        }
+        DatabaseHelper helper = new DatabaseHelper(getContext());
+        ArrayList<MovieImpl> movies = helper.reloadMovieList();
 
-        MyMovieImpListViewAdapter adapter = new MyMovieImpListViewAdapter(model.getMoviesInLibrary(), this.getActivity());
+        MyMovieImpListViewAdapter adapter = new MyMovieImpListViewAdapter(movies, this.getActivity());
 
         listView.setAdapter(adapter);
 
         this.getDialog().setTitle("Select a Movie");
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemClick: clicked on " + position);
-                MovieImpl movie = (MovieImpl) parent.getItemAtPosition(position);
-                passMovie(movie);
-                dismiss();
-            }
-
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            Log.d(TAG, "onItemClick: clicked on " + position);
+            MovieImpl movie = (MovieImpl) parent.getItemAtPosition(position);
+            passMovie(movie);
+            dismiss();
         });
 
         return view;

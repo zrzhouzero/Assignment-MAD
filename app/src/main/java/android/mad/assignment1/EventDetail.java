@@ -4,29 +4,20 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,7 +26,6 @@ import java.util.Date;
 import java.util.HashSet;
 
 import database.DatabaseHelper;
-import model.Event;
 import model.EventImpl;
 import model.Location;
 import model.MovieImpl;
@@ -68,8 +58,6 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
     private ArrayList<String> currentSelectedAttendees;
     private ArrayList<EventImpl> allEvents;
 
-    private final static File eventFile = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass_1/events.txt");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +68,6 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
         allEvents = (ArrayList<EventImpl>) in.getSerializableExtra("ALL_EVENTS");
         initialiseErrorMessages();
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy MMM dd HH:mm:ss a");
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         @SuppressLint("SimpleDateFormat") SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
@@ -95,91 +82,59 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
 
         startDate = findViewById(R.id.start_date_text_view);
         startDate.setText(dateFormat.format(currentEvent.getStartDate()));
-        startDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onCreate: clicked on start date button.");
+        startDate.setOnClickListener(v -> {
+            Log.d(TAG, "onCreate: clicked on start date button.");
 
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
+            final Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR);
+            int mMonth = c.get(Calendar.MONTH);
+            int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        startDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
-                    }
-                }, mYear, mMonth, mDay);
-                datePickerDialog.show();
-            }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), (view, year, monthOfYear, dayOfMonth) -> startDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth), mYear, mMonth, mDay);
+            datePickerDialog.show();
         });
 
 
         startTime = findViewById(R.id.start_time_text_view);
         startTime.setText(timeFormat.format(currentEvent.getStartDate()));
-        startTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onCreate: clicked on start time button.");
+        startTime.setOnClickListener(v -> {
+            Log.d(TAG, "onCreate: clicked on start time button.");
 
-                final Calendar c = Calendar.getInstance();
-                int mHour = c.get(Calendar.HOUR_OF_DAY);
-                int mMinute = c.get(Calendar.MINUTE);
+            final Calendar c = Calendar.getInstance();
+            int mHour = c.get(Calendar.HOUR_OF_DAY);
+            int mMinute = c.get(Calendar.MINUTE);
 
-                // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        startTime.setText(hourOfDay + ":" + minute);
-                    }
-                }, mHour, mMinute, false);
-                timePickerDialog.show();
-            }
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(), (view, hourOfDay, minute) -> startTime.setText(hourOfDay + ":" + minute), mHour, mMinute, false);
+            timePickerDialog.show();
         });
 
         endDate = findViewById(R.id.end_date_text_view);
         endDate.setText(dateFormat.format(currentEvent.getEndDate()));
-        endDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onCreate: clicked on end date button.");
+        endDate.setOnClickListener(v -> {
+            Log.d(TAG, "onCreate: clicked on end date button.");
 
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
+            final Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR);
+            int mMonth = c.get(Calendar.MONTH);
+            int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        endDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
-                    }
-                }, mYear, mMonth, mDay);
-                datePickerDialog.show();
-            }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(v.getContext(), (view, year, monthOfYear, dayOfMonth) -> endDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth), mYear, mMonth, mDay);
+            datePickerDialog.show();
         });
 
         endTime = findViewById(R.id.end_time_text_view);
         endTime.setText(timeFormat.format(currentEvent.getEndDate()));
-        endTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onCreate: clicked on end time button.");
+        endTime.setOnClickListener(v -> {
+            Log.d(TAG, "onCreate: clicked on end time button.");
 
-                final Calendar c = Calendar.getInstance();
-                int mHour = c.get(Calendar.HOUR_OF_DAY);
-                int mMinute = c.get(Calendar.MINUTE);
+            final Calendar c = Calendar.getInstance();
+            int mHour = c.get(Calendar.HOUR_OF_DAY);
+            int mMinute = c.get(Calendar.MINUTE);
 
-                // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        endTime.setText(hourOfDay + ":" + minute);
-                    }
-                }, mHour, mMinute, false);
-                timePickerDialog.show();
-            }
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(), (view, hourOfDay, minute) -> endTime.setText(hourOfDay + ":" + minute), mHour, mMinute, false);
+            timePickerDialog.show();
         });
 
         venue = findViewById(R.id.venue);
@@ -197,13 +152,10 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
         } else {
             selectedMovie.setText(R.string.no_movie_found);
         }
-        selectedMovie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager manager = getSupportFragmentManager();
-                MovieSelectionFragment fragment = new MovieSelectionFragment();
-                fragment.show(manager, "select_a_movie");
-            }
+        selectedMovie.setOnClickListener(v -> {
+            FragmentManager manager = getSupportFragmentManager();
+            MovieSelectionFragment fragment = new MovieSelectionFragment();
+            fragment.show(manager, "select_a_movie");
         });
 
         selectedAttendees = findViewById(R.id.attendees);
@@ -212,137 +164,92 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
         setInfoEnable(false);
 
         Button addAttendees = findViewById(R.id.add_attendee_button_on_detail_page);
-        addAttendees.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-                startActivityForResult(intent, CODE_PICK_CONTACTS);
-            }
+        addAttendees.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+            startActivityForResult(intent, CODE_PICK_CONTACTS);
         });
 
         Button removeAttendees = findViewById(R.id.remove_attendee_button_on_detail_page);
-        removeAttendees.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(EventDetail.this);
-                mBuilder.setTitle("Choose an item");
-                String[] temp = currentSelectedAttendees.toArray(new String[currentSelectedAttendees.size()]);
-                mBuilder.setSingleChoiceItems(temp, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        currentSelectedAttendees.remove(i);
-                        reloadAttendees();
-                        dialogInterface.dismiss();
-                    }
-                });
+        removeAttendees.setOnClickListener(v -> {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(EventDetail.this);
+            mBuilder.setTitle("Choose an item");
+            String[] temp = currentSelectedAttendees.toArray(new String[currentSelectedAttendees.size()]);
+            mBuilder.setSingleChoiceItems(temp, -1, (dialogInterface, i) -> {
+                currentSelectedAttendees.remove(i);
+                reloadAttendees();
+                dialogInterface.dismiss();
+            });
 
-                AlertDialog mDialog = mBuilder.create();
-                mDialog.show();
-            }
+            AlertDialog mDialog = mBuilder.create();
+            mDialog.show();
         });
 
         Button editEvent = findViewById(R.id.edit_event_detail_button);
-        editEvent.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                setInfoEnable(true);
-                Toast.makeText(getApplicationContext(), "Edit Mode On", Toast.LENGTH_LONG).show();
-                return true;
-            }
+        editEvent.setOnLongClickListener(v -> {
+            setInfoEnable(true);
+            Toast.makeText(getApplicationContext(), "Edit Mode On", Toast.LENGTH_LONG).show();
+            return true;
         });
 
         Button saveEventButton = findViewById(R.id.save_event_button);
-        saveEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // save event
-                String srcDateTimeFormat = "yyyy/M/dd hh:mm";
-                String tarDateTimeFormat = "dd/MM/yyyy H:mm:ss a";
-                SimpleDateFormat readFormat = new SimpleDateFormat(srcDateTimeFormat);
-                SimpleDateFormat writeFormat = new SimpleDateFormat(tarDateTimeFormat);
+        saveEventButton.setOnClickListener(v -> {
+            // save event
+            String srcDateTimeFormat = "yyyy/M/dd hh:mm";
+            SimpleDateFormat readFormat = new SimpleDateFormat(srcDateTimeFormat);
 
-                int step = 0;
-                try {
-                    String tempEventTitle = title.getText().toString();
-                    if (tempEventTitle.trim().equals("")) throw new EmptySlotException();
-                    step++;
+            int step = 0;
+            try {
+                String tempEventTitle = title.getText().toString();
+                if (tempEventTitle.trim().equals("")) throw new EmptySlotException();
+                step++;
 
-                    Date tempStartDateTime = readFormat.parse(startDate.getText().toString() + " " + startTime.getText().toString());
-                    Date tempEndDateTime = readFormat.parse(endDate.getText().toString() + " " + endTime.getText().toString());
-                    if (tempStartDateTime.compareTo(tempEndDateTime) > 0)
-                        throw new DateTimeException();
-                    step++;
+                Date tempStartDateTime = readFormat.parse(startDate.getText().toString() + " " + startTime.getText().toString());
+                Date tempEndDateTime = readFormat.parse(endDate.getText().toString() + " " + endTime.getText().toString());
+                if (tempStartDateTime.compareTo(tempEndDateTime) > 0) throw new DateTimeException();
+                step++;
 
-                    String tempVenue = venue.getText().toString();
-                    if (tempVenue.trim().equals("")) throw new EmptySlotException();
-                    step++;
+                String tempVenue = venue.getText().toString();
+                if (tempVenue.trim().equals("")) throw new EmptySlotException();
+                step++;
 
-                    double tempLongitude = Double.parseDouble(longitude.getText().toString());
-                    if (tempLongitude >= 180 || tempLongitude <= -180)
-                        throw new LongitudeOutOfBoundException();
-                    step++;
+                double tempLongitude = Double.parseDouble(longitude.getText().toString());
+                if (tempLongitude >= 180 || tempLongitude <= -180)
+                    throw new LongitudeOutOfBoundException();
+                step++;
 
-                    double tempLatitude = Double.parseDouble(latitude.getText().toString());
-                    if (tempLatitude >= 90 || tempLatitude <= -90)
-                        throw new LatitudeOutOfBoundException();
-                    step++;
+                double tempLatitude = Double.parseDouble(latitude.getText().toString());
+                if (tempLatitude >= 90 || tempLatitude <= -90)
+                    throw new LatitudeOutOfBoundException();
+                step++;
 
-                    String tempId = id.getText().toString();
+                String tempId = id.getText().toString();
 
-                    allEvents.removeIf(e -> e.getId().equals(id.getText().toString()));
-                    EventImpl event = new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new Location(tempLatitude, tempLongitude));
-                    event.setMovie(currentSelectedMovie);
-                    event.setAttendees(currentSelectedAttendees);
-                    allEvents.add(event);
+                allEvents.removeIf(e -> e.getId().equals(id.getText().toString()));
+                EventImpl event = new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new Location(tempLatitude, tempLongitude));
+                event.setMovie(currentSelectedMovie);
+                event.setAttendees(currentSelectedAttendees);
+                allEvents.add(event);
 
-                    DatabaseHelper db = new DatabaseHelper(v.getContext());
-                    db.updateEvent(event);
+                DatabaseHelper db = new DatabaseHelper(v.getContext());
+                db.updateEvent(event);
 
-                    PrintWriter writer = new PrintWriter(new FileWriter(eventFile, false));
-                    for (Event e: allEvents) {
-                        StringBuilder builder = new StringBuilder();
-                        if (e.getMovie() == null) {
-                            writer.write("\"" + e.getId() + "\",\"" + e.getTitle() + "\",\"" + writeFormat.format(e.getStartDate()) +
-                                    "\",\"" + writeFormat.format(e.getEndDate()) + "\",\"" + e.getVenue() + "\",\"" + e.getLocation().getLatitude() + ", " +
-                                    e.getLocation().getLongitude() + "\"\n");
-                        }
-                        if (e.getAttendees() == null) {
-                            writer.write("\"" + e.getId() + "\",\"" + e.getTitle() + "\",\"" + writeFormat.format(e.getStartDate()) +
-                                    "\",\"" + writeFormat.format(e.getEndDate()) + "\",\"" + e.getVenue() + "\",\"" + e.getLocation().getLatitude() + ", " +
-                                    e.getLocation().getLongitude() + "\",\"" + e.getMovie().getTitle() + "\"\n");
-                        }
-                        if (e.getMovie() != null && e.getAttendees() != null) {
-                            for (String s: e.getAttendees()) {
-                                builder.append(s).append(":");
-                            }
-                            writer.write("\"" + e.getId() + "\",\"" + e.getTitle() + "\",\"" + writeFormat.format(e.getStartDate()) +
-                                    "\",\"" + writeFormat.format(e.getEndDate()) + "\",\"" + e.getVenue() + "\",\"" + e.getLocation().getLatitude() + ", " +
-                                    e.getLocation().getLongitude() + "\",\"" + e.getMovie().getTitle() + "\",\"" + builder.toString() + "\"\n");
-                        }
-                    }
-                    writer.close();
-                    Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_LONG).show();
-                } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException | IOException e) {
-                    Log.e(TAG, "onClick: " + e.getMessage());
-                    AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
-                    alertDialog.setTitle("Alert");
-                    alertDialog.setMessage(errorMessages[step]);
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                    return;
-                }
-
-                Log.d(TAG, "onClick: save button");
-                setInfoEnable(false);
-                Toast.makeText(v.getContext(), "Event Saved!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(v.getContext(), EventList.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_LONG).show();
+            } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException e) {
+                Log.e(TAG, "onClick: " + e.getMessage());
+                AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage(errorMessages[step]);
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        (dialog, which) -> dialog.dismiss());
+                alertDialog.show();
+                return;
             }
+
+            Log.d(TAG, "onClick: save button");
+            setInfoEnable(false);
+            Toast.makeText(v.getContext(), "Event Saved!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(v.getContext(), EventList.class);
+            startActivity(intent);
         });
 
     }
@@ -368,7 +275,7 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
 
     private void reloadAttendees() {
         if (currentEvent.getAttendees().size() > 1) {
-            selectedAttendees.setText(currentEvent.getAttendees().get(0) + " and " + String.valueOf(currentEvent.getAttendees().size() - 1) + " more.");
+            selectedAttendees.setText(currentEvent.getAttendees().get(0) + " and " + (currentEvent.getAttendees().size() - 1) + " more.");
         } else if (currentEvent.getAttendees().size() == 1) {
             selectedAttendees.setText(currentEvent.getAttendees().get(0));
         } else {

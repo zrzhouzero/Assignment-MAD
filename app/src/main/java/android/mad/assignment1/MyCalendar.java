@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -47,51 +46,39 @@ public class MyCalendar extends AppCompatActivity {
         resetEventDisplay();
 
         Button previousYearButton = findViewById(R.id.previous_year_button);
-        previousYearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initYear--;
-                resetDateViews();
-                resetEventDisplay();
-            }
+        previousYearButton.setOnClickListener(v -> {
+            initYear--;
+            resetDateViews();
+            resetEventDisplay();
         });
 
         Button nextYearButton = findViewById(R.id.next_year_button);
-        nextYearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initYear++;
-                resetDateViews();
-                resetEventDisplay();
-            }
+        nextYearButton.setOnClickListener(v -> {
+            initYear++;
+            resetDateViews();
+            resetEventDisplay();
         });
 
         Button previousMonthButton = findViewById(R.id.previous_month_button);
-        previousMonthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initMonth--;
-                if (initMonth == -1) {
-                    initMonth = 11;
-                    initYear--;
-                }
-                resetDateViews();
-                resetEventDisplay();
+        previousMonthButton.setOnClickListener(v -> {
+            initMonth--;
+            if (initMonth == -1) {
+                initMonth = 11;
+                initYear--;
             }
+            resetDateViews();
+            resetEventDisplay();
         });
 
         Button nextMonthButton = findViewById(R.id.next_month_button);
-        nextMonthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initMonth++;
-                if (initMonth == 12) {
-                    initMonth = 0;
-                    initYear++;
-                }
-                resetDateViews();
-                resetEventDisplay();
+        nextMonthButton.setOnClickListener(v -> {
+            initMonth++;
+            if (initMonth == 12) {
+                initMonth = 0;
+                initYear++;
             }
+            resetDateViews();
+            resetEventDisplay();
         });
 
         initDateViews();
@@ -214,26 +201,23 @@ public class MyCalendar extends AppCompatActivity {
             if (t.getText().toString().equals("")) {
                 continue;
             }
-            t.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    StringBuilder builder = new StringBuilder();
-                    Calendar c = Calendar.getInstance();
-                    for (EventImpl e: events) {
-                        c.setTime(e.getStartDate());
-                        if (c.get(Calendar.YEAR) == initYear) {
-                            if (c.get(Calendar.MONTH) == initMonth) {
-                                if (c.get(Calendar.DATE) == Integer.parseInt(t.getText().toString())) {
-                                    builder.append(e.getTitle()).append(" ").append(format.format(e.getStartDate())).append(System.lineSeparator());
-                                }
+            t.setOnClickListener(v -> {
+                StringBuilder builder = new StringBuilder();
+                Calendar c = Calendar.getInstance();
+                for (EventImpl e: events) {
+                    c.setTime(e.getStartDate());
+                    if (c.get(Calendar.YEAR) == initYear) {
+                        if (c.get(Calendar.MONTH) == initMonth) {
+                            if (c.get(Calendar.DATE) == Integer.parseInt(t.getText().toString())) {
+                                builder.append(e.getTitle()).append(" ").append(format.format(e.getStartDate())).append(System.lineSeparator());
                             }
                         }
                     }
-                    if (builder.toString().equals("")) {
-                        resetEventDisplay();
-                    } else {
-                        eventDisplay.setText(builder.toString());
-                    }
+                }
+                if (builder.toString().equals("")) {
+                    resetEventDisplay();
+                } else {
+                    eventDisplay.setText(builder.toString());
                 }
             });
         }

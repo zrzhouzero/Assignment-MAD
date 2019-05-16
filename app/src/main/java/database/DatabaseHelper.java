@@ -56,6 +56,18 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        createDatabase(db);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + MOVIE_TABLE_NAME + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + EVENT_TABLE_NAME + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + ATTENDANCE_TABLE_NAME + ";");
+        onCreate(db);
+    }
+
+    public void createDatabase(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + MOVIE_TABLE_NAME + " (" +
                 MOVIE_COL_1 + " TEXT PRIMARY KEY, " +
                 MOVIE_COL_2 + " TEXT, " +
@@ -80,14 +92,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
                 "FOREIGN KEY (" + ATTENDANCE_COL_1 + ") REFERENCES " + EVENT_TABLE_NAME + "(" + EVENT_COL_1 + "));");
 
         Log.d(TAG, "onCreate: onCreate.");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + MOVIE_TABLE_NAME + ";");
-        db.execSQL("DROP TABLE IF EXISTS " + EVENT_TABLE_NAME + ";");
-        db.execSQL("DROP TABLE IF EXISTS " + ATTENDANCE_TABLE_NAME + ";");
-        onCreate(db);
     }
 
     public void loadMoviesFromFile() throws IOException, NumberFormatException {
@@ -162,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor eventCursor = db.rawQuery("SELECT * FROM " + EVENT_TABLE_NAME + " WHERE " +
-                EVENT_COL_1 + " = " + id + ";", null);
+                EVENT_COL_1 + " = \"" + id + "\";", null);
         eventCursor.moveToFirst();
 
         String datePattern = "dd/MM/yyyy H:mm:ss a";
@@ -190,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         ArrayList<String> result = new ArrayList<>();
 
         Cursor cursor = db.rawQuery("SELECT " + ATTENDANCE_COL_2 + " FROM " + ATTENDANCE_TABLE_NAME + " WHERE " +
-                ATTENDANCE_COL_1 + " = " + id + ";", null);
+                ATTENDANCE_COL_1 + " = \"" + id + "\";", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -200,6 +204,27 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
         cursor.close();
         return result;
+    }
+
+    public ArrayList<MovieImpl> reloadMovieList() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> ids = new ArrayList<>();
+        ArrayList<MovieImpl> movies = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT " + MOVIE_COL_1 + " FROM " + MOVIE_TABLE_NAME + ";", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                ids.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        for (String id : ids) {
+            movies.add(findMovieById(id));
+        }
+
+        cursor.close();
+        return movies;
     }
 
     public ArrayList<EventImpl> reloadEventList() throws ParseException {
@@ -246,8 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         db.insert(EVENT_TABLE_NAME, null, values);
 
         if (event.getAttendees() != null && event.getAttendees().size() > 0) {
-            String deleteCon = ATTENDANCE_COL_1 + " = " + event.getId();
-            db.delete(ATTENDANCE_TABLE_NAME, deleteCon, null);
+            db.rawQuery("DELETE FROM " + ATTENDANCE_TABLE_NAME + " WHERE " + ATTENDANCE_COL_1 + " = \"" + event.getId() + "\";", null);
 
             ContentValues attendeeValues = new ContentValues();
             for (String s : event.getAttendees()) {
@@ -278,13 +302,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
             values.put(EVENT_COL_8, movieId);
         }
 
-        String con = EVENT_COL_1 + " = " + event.getId();
+        String con = EVENT_COL_1 + " = \"" + event.getId() + "\"";
 
         db.update(EVENT_TABLE_NAME, values, con, null);
 
         if (event.getAttendees() != null && event.getAttendees().size() > 0) {
-            String deleteCon = ATTENDANCE_COL_1 + " = " + event.getId();
-            db.delete(ATTENDANCE_TABLE_NAME, deleteCon, null);
+            db.rawQuery("DELETE FROM " + ATTENDANCE_TABLE_NAME + " WHERE " + ATTENDANCE_COL_1 + " = \"" + event.getId() + "\";", null);
 
             ContentValues attendeeValues = new ContentValues();
             for (String s : event.getAttendees()) {

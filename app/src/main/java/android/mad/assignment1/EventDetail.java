@@ -230,8 +230,11 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
                 event.setAttendees(currentSelectedAttendees);
                 allEvents.add(event);
 
-                DatabaseHelper db = new DatabaseHelper(v.getContext());
-                db.updateEvent(event);
+                Runnable r = () -> {
+                    DatabaseHelper db = new DatabaseHelper(v.getContext());
+                    db.updateEvent(event);
+                };
+                new Thread(r).start();
 
                 Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_LONG).show();
             } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException e) {

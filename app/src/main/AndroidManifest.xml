@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="android.mad.assignment1">
+    package="android.mad.assignment">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name=".NetworkStatusChangeReceiver">
+        <receiver android:name="android.mad.assignment.NetworkStatusChangeReceiver">
             <intent-filter>
                 <action android:name="android.NET.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.Net.wifi.WIFI_STATE_CHANGED" />
@@ -43,14 +43,13 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".DisplaySoonestEventOnMapsActivity"
+            android:name="android.mad.assignment.DisplaySoonestEventOnMapsActivity"
             android:label="@string/title_activity_display_soonest_event_on_maps"></activity>
-        <activity android:name=".MyCalendar" />
-        <activity android:name=".MovieDetail" />
-        <activity android:name=".AddEvent" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".EventDetail" />
-        <activity android:name=".EventList">
+        <activity android:name="android.mad.assignment.MyCalendar" />
+        <activity android:name="android.mad.assignment.MovieDetail" />
+        <activity android:name="android.mad.assignment.AddEvent" />
+        <activity android:name="android.mad.assignment.EventDetail" />
+        <activity android:name="android.mad.assignment.EventList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

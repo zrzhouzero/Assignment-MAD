@@ -1,4 +1,4 @@
-package android.mad.assignment1;
+package android.mad.assignment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -25,7 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 
-import database.DatabaseHelper;
 import model.EventImpl;
 import model.Location;
 import model.MovieImpl;
@@ -230,11 +229,14 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
                 event.setAttendees(currentSelectedAttendees);
                 allEvents.add(event);
 
-                Runnable r = () -> {
+                /*Runnable r = () -> {
                     DatabaseHelper db = new DatabaseHelper(v.getContext());
                     db.updateEvent(event);
                 };
-                new Thread(r).start();
+                new Thread(r).start();*/
+
+                DatabaseTask task = new DatabaseTask(v.getContext(), false, event);
+                task.execute();
 
                 Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_LONG).show();
             } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException e) {

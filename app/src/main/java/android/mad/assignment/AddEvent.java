@@ -1,4 +1,4 @@
-package android.mad.assignment1;
+package android.mad.assignment;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -24,7 +24,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 
-import database.DatabaseHelper;
 import model.EventImpl;
 import model.Location;
 import model.MovieImpl;
@@ -206,11 +205,15 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
 
                 String tempId = (tempEventTitle.charAt(0) + "" + tempVenue.charAt(0)).trim();
 
-                Runnable r = () -> {
+                /*Runnable r = () -> {
                     DatabaseHelper helper = new DatabaseHelper(v.getContext());
                     helper.insertEvent(new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new Location(tempLatitude, tempLongitude), selectedMovie, selectedAttendees));
                 };
-                new Thread(r).start();
+                new Thread(r).start();*/
+
+                EventImpl tempEvent = new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new Location(tempLatitude, tempLongitude), selectedMovie, selectedAttendees);
+                DatabaseTask task = new DatabaseTask(v.getContext(), true, tempEvent);
+                task.execute();
 
                 Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_LONG).show();
             } catch (ParseException | EmptySlotException | DateTimeException | NumberFormatException | LongitudeOutOfBoundException | LatitudeOutOfBoundException | NoMovieFoundException e) {

@@ -45,4 +45,9 @@
     <string name="title_activity_display_soonest_event_on_maps">Map</string>
     <string name="internet_disconnected">Internet Unavailable</string>
     <string name="internet_connected">Internet Available</string>
+    <string name="settings">Settings</string>
+    <string name="notification_period_in_minutes">Notification Period (in minutes)</string>
+    <string name="notification_threshold_in_minutes">Notification Threshold (in minutes)</string>
+    <string name="remind_again_duration_in_minutes">Remind Again Duration (in minutes)</string>
+    <string name="save_settings">Save Settings</string>
 </resources>

@@ -1,4 +1,4 @@
-package android.mad.assignment1;
+package android.mad.assignment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

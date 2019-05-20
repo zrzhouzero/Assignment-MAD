@@ -1,4 +1,4 @@
-package android.mad.assignment1;
+package android.mad.assignment;
 
 import android.content.Intent;
 import android.os.Bundle;

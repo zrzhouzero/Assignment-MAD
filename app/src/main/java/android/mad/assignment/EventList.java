@@ -1,4 +1,4 @@
-package android.mad.assignment1;
+package android.mad.assignment;
 
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import java.text.ParseException;
 
 import database.DatabaseHelper;
+import model.ApplicationSettingsHandler;
 import model.EventImpl;
 import model.EventModel;
 
@@ -39,6 +41,7 @@ public class EventList extends AppCompatActivity {
         try {
             myDb.loadMoviesFromFile();
             myDb.loadEventsFromFile();
+            ApplicationSettingsHandler.readSettingFile();
         } catch (Exception e) {
             Log.e(TAG, "load file: failed");
             e.printStackTrace();
@@ -51,6 +54,13 @@ public class EventList extends AppCompatActivity {
 
         Button sortEventButton = findViewById(R.id.button_sort_event);
         sortEventButton.setOnClickListener(v -> sortEventLatestFirst());
+
+        Button settingButton = findViewById(R.id.setting_button);
+        settingButton.setOnClickListener(l -> {
+            FragmentManager manager = getSupportFragmentManager();
+            SettingPageFragment fragment = new SettingPageFragment();
+            fragment.show(manager, "settings");
+        });
 
         Button addEventButton = findViewById(R.id.button_add_event);
         addEventButton.setOnClickListener(v -> {

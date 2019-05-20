@@ -1,6 +1,7 @@
 package android.mad.assignment1;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,6 +43,11 @@ public class EventList extends AppCompatActivity {
             Log.e(TAG, "load file: failed");
             e.printStackTrace();
         }
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        NetworkStatusChangeReceiver receiver = new NetworkStatusChangeReceiver();
+        registerReceiver(receiver, intentFilter);
 
         Button sortEventButton = findViewById(R.id.button_sort_event);
         sortEventButton.setOnClickListener(v -> sortEventLatestFirst());

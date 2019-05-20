@@ -142,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + MOVIE_TABLE_NAME + " WHERE " +
-                MOVIE_COL_1 + " = " + id + ";", null);
+                MOVIE_COL_1 + " = \"" + id + "\";", null);
         cursor.moveToFirst();
         MovieImpl movie = new MovieImpl(cursor.getString(0), cursor.getString(1), cursor.getInt(2), cursor.getString(3));
         cursor.close();

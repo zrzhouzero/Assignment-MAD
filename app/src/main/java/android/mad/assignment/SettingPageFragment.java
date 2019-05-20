@@ -37,8 +37,11 @@ public class SettingPageFragment extends DialogFragment {
         this.getDialog().setTitle("Settings");
 
         EditText threshold = view.findViewById(R.id.threshold_input);
+        threshold.setHint(String.valueOf(ApplicationSettingsHandler.getThresholdInMinutes()));
         EditText remind = view.findViewById(R.id.remind_again_input);
+        remind.setHint(String.valueOf(ApplicationSettingsHandler.getRemindAgainDuration()));
         EditText period = view.findViewById(R.id.notification_period_input);
+        period.setHint(String.valueOf(ApplicationSettingsHandler.getNotificationPeriod()));
 
         Button saveButton = view.findViewById(R.id.setting_page_save_button);
         saveButton.setOnClickListener(l -> {

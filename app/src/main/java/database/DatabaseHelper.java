@@ -271,7 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         db.insert(EVENT_TABLE_NAME, null, values);
 
         if (event.getAttendees() != null && event.getAttendees().size() > 0) {
-            db.rawQuery("DELETE FROM " + ATTENDANCE_TABLE_NAME + " WHERE " + ATTENDANCE_COL_1 + " = \"" + event.getId() + "\";", null);
+            Cursor cursor = db.rawQuery("DELETE FROM " + ATTENDANCE_TABLE_NAME + " WHERE " + ATTENDANCE_COL_1 + " = \"" + event.getId() + "\";", null);
 
             ContentValues attendeeValues = new ContentValues();
             for (String s : event.getAttendees()) {
@@ -280,6 +280,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
                 db.insert(ATTENDANCE_TABLE_NAME, null, attendeeValues);
             }
+            cursor.close();
         }
     }
 
@@ -307,7 +308,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         db.update(EVENT_TABLE_NAME, values, con, null);
 
         if (event.getAttendees() != null && event.getAttendees().size() > 0) {
-            db.rawQuery("DELETE FROM " + ATTENDANCE_TABLE_NAME + " WHERE " + ATTENDANCE_COL_1 + " = \"" + event.getId() + "\";", null);
+            Cursor cursor = db.rawQuery("DELETE FROM " + ATTENDANCE_TABLE_NAME + " WHERE " + ATTENDANCE_COL_1 + " = \"" + event.getId() + "\";", null);
 
             ContentValues attendeeValues = new ContentValues();
             for (String s : event.getAttendees()) {
@@ -316,6 +317,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
                 db.insert(ATTENDANCE_TABLE_NAME, null, attendeeValues);
             }
+            cursor.close();
         }
     }
 

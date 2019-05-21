@@ -19,6 +19,4 @@ public class NotificationService extends JobService {
         return false;
     }
 
-
-
 }

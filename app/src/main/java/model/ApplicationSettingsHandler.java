@@ -36,7 +36,7 @@ public class ApplicationSettingsHandler {
         if (!directory.exists() && !directory.isDirectory()) {
             if (directory.mkdirs()) {
                 Log.d("Create Setting Dir: ", "App dir created");
-                updateSettings(15, 5, 10);
+                updateSettings(15, 5, 1);
             } else {
                 Log.w("Create Setting Dir: ", "Unable to create app dir!");
             }
@@ -63,7 +63,7 @@ public class ApplicationSettingsHandler {
     }
 
     private static void createDefaultSettings() {
-        updateSettings(15, 5, 10);
+        updateSettings(15, 5, 1);
     }
 
     public static void readSettingFile() {

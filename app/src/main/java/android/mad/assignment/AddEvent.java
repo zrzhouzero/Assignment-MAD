@@ -205,12 +205,6 @@ public class AddEvent extends AppCompatActivity implements MovieSelectionFragmen
 
                 String tempId = (tempEventTitle.charAt(0) + "" + tempVenue.charAt(0)).trim();
 
-                /*Runnable r = () -> {
-                    DatabaseHelper helper = new DatabaseHelper(v.getContext());
-                    helper.insertEvent(new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new MyLocation(tempLatitude, tempLongitude), selectedMovie, selectedAttendees));
-                };
-                new Thread(r).start();*/
-
                 EventImpl tempEvent = new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new MyLocation(tempLatitude, tempLongitude), selectedMovie, selectedAttendees);
                 DatabaseTask task = new DatabaseTask(v.getContext(), true, tempEvent);
                 task.execute();

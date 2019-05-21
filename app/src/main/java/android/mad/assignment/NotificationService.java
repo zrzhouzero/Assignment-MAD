@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -26,6 +27,8 @@ import model.EventImpl;
 import model.MyLocation;
 
 public class NotificationService extends Service {
+
+    public static final int NOTIFICATION_ID = 9999;
 
     private LocationListener locationListener;
     private LocationManager locationManager;
@@ -49,11 +52,16 @@ public class NotificationService extends Service {
     @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
+
+        NotificationHelper helper = new NotificationHelper(getApplicationContext());
+
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 reloadEvents();
                 updateDrivingTime(location);
+                NotificationCompat.Builder nb = helper.getChannelNotification("Notification",  "Test");
+                helper.getManager().notify(NOTIFICATION_ID, nb.build());
             }
 
             @Override
@@ -75,7 +83,7 @@ public class NotificationService extends Service {
         };
         locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, notificationPeriod, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListener);
     }
 
     @Override

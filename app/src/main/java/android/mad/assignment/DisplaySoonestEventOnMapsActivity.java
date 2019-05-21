@@ -48,7 +48,7 @@ public class DisplaySoonestEventOnMapsActivity extends FragmentActivity implemen
         mMap = googleMap;
 
         for (EventImpl e : soonestEvents) {
-            LatLng target = new LatLng(e.getLocation().getLatitude(), e.getLocation().getLongitude());
+            LatLng target = new LatLng(e.getMyLocation().getLatitude(), e.getMyLocation().getLongitude());
             mMap.addMarker(new MarkerOptions().position(target).title(e.getTitle()));
         }
 

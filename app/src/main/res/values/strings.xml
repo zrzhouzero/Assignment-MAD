@@ -6,7 +6,7 @@
     <string name="event_title">Event Title</string>
     <string name="start_date">Start Date</string>
     <string name="venue">Venue</string>
-    <string name="location">Location</string>
+    <string name="myLocation">Location</string>
     <string name="movie">Movie</string>
     <string name="start_time">Start Time</string>
     <string name="end_time">End Time</string>
@@ -50,4 +50,7 @@
     <string name="notification_threshold_in_minutes">Notification Threshold (in minutes)</string>
     <string name="remind_again_duration_in_minutes">Remind Again Duration (in minutes)</string>
     <string name="save_settings">Save Settings</string>
+    <string name="title_location_permission">Location Permission</string>
+    <string name="text_location_permission">Location Permission</string>
+    <string name="ok">OK</string>
 </resources>

@@ -15,7 +15,7 @@ public interface Event {
 
     String getVenue();
 
-    Location getLocation();
+    MyLocation getMyLocation();
 
     MovieImpl getMovie();
 

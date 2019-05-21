@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.EventImpl;
-import model.Location;
+import model.MyLocation;
 import model.MovieImpl;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
@@ -173,7 +173,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         SimpleDateFormat format = new SimpleDateFormat(datePattern);
 
         EventImpl event = new EventImpl(eventCursor.getString(0), eventCursor.getString(1), format.parse(eventCursor.getString(2)),
-                format.parse(eventCursor.getString(3)), eventCursor.getString(4), new Location(eventCursor.getDouble(5), eventCursor.getDouble(6)));
+                format.parse(eventCursor.getString(3)), eventCursor.getString(4), new MyLocation(eventCursor.getDouble(5), eventCursor.getDouble(6)));
 
         // set movie
         if (eventCursor.getString(7) != null && !eventCursor.getString(7).equals("")) {
@@ -260,8 +260,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         values.put(EVENT_COL_3, format.format(event.getStartDate()));
         values.put(EVENT_COL_4, format.format(event.getEndDate()));
         values.put(EVENT_COL_5, event.getVenue());
-        values.put(EVENT_COL_6, event.getLocation().getLatitude());
-        values.put(EVENT_COL_7, event.getLocation().getLongitude());
+        values.put(EVENT_COL_6, event.getMyLocation().getLatitude());
+        values.put(EVENT_COL_7, event.getMyLocation().getLongitude());
 
         if (event.getMovie() != null) {
             String movieId = findMovieIdByName(event.getMovie().getTitle());
@@ -295,8 +295,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         values.put(EVENT_COL_3, format.format(event.getStartDate()));
         values.put(EVENT_COL_4, format.format(event.getEndDate()));
         values.put(EVENT_COL_5, event.getVenue());
-        values.put(EVENT_COL_6, event.getLocation().getLatitude());
-        values.put(EVENT_COL_7, event.getLocation().getLongitude());
+        values.put(EVENT_COL_6, event.getMyLocation().getLatitude());
+        values.put(EVENT_COL_7, event.getMyLocation().getLongitude());
 
         if (event.getMovie() != null) {
             String movieId = findMovieIdByName(event.getMovie().getTitle());

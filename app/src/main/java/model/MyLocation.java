@@ -2,12 +2,12 @@ package model;
 
 import java.io.Serializable;
 
-public class Location implements Serializable {
+public class MyLocation implements Serializable {
 
     private double latitude;
     private double longitude;
 
-    public Location(double latitude, double longitude) {
+    public MyLocation(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

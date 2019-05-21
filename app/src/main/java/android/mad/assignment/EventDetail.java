@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import model.EventImpl;
-import model.Location;
+import model.MyLocation;
 import model.MovieImpl;
 import model.exceptions.DateTimeException;
 import model.exceptions.EmptySlotException;
@@ -140,10 +140,10 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
         venue.setText(currentEvent.getVenue());
 
         longitude = findViewById(R.id.longitude);
-        longitude.setText(String.valueOf(currentEvent.getLocation().getLongitude()));
+        longitude.setText(String.valueOf(currentEvent.getMyLocation().getLongitude()));
 
         latitude = findViewById(R.id.latitude);
-        latitude.setText(String.valueOf(currentEvent.getLocation().getLatitude()));
+        latitude.setText(String.valueOf(currentEvent.getMyLocation().getLatitude()));
 
         selectedMovie = findViewById(R.id.movie);
         if (currentEvent.getMovie() != null) {
@@ -224,7 +224,7 @@ public class EventDetail extends AppCompatActivity implements MovieSelectionFrag
                 String tempId = id.getText().toString();
 
                 allEvents.removeIf(e -> e.getId().equals(id.getText().toString()));
-                EventImpl event = new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new Location(tempLatitude, tempLongitude));
+                EventImpl event = new EventImpl(tempId, tempEventTitle, tempStartDateTime, tempEndDateTime, tempVenue, new MyLocation(tempLatitude, tempLongitude));
                 event.setMovie(currentSelectedMovie);
                 event.setAttendees(currentSelectedAttendees);
                 allEvents.add(event);

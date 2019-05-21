@@ -1,13 +1,16 @@
 package android.mad.assignment;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +33,8 @@ public class EventList extends AppCompatActivity {
     private RecyclerView eventList;
     private EventListAdapter adapter;
     private DatabaseHelper myDb;
+
+    private static final int REQUEST_LOCATION_PERMISSION = 404;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +94,11 @@ public class EventList extends AppCompatActivity {
         } catch (ParseException p) {
             Log.d(TAG, "onCreate: parse error.");
         }
+
+        runtimePermissions();
+
+        Intent notificationServiceIntent = new Intent(getApplicationContext(), NotificationService.class);
+        startService(notificationServiceIntent);
     }
 
     private void initialiseModel() throws ParseException {
@@ -145,4 +155,20 @@ public class EventList extends AppCompatActivity {
         eventList.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    private void runtimePermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                runtimePermissions();
+            }
+        }
+    }
 }

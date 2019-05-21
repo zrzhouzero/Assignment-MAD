@@ -5,7 +5,7 @@
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
+         myLocation permissions for the 'MyLocation' functionality.
     -->
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -32,9 +32,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".NotificationService"
-            android:permission="android.permission.BIND_JOB_SERVICE" >
-        </service>
+        <service android:name=".NotificationService" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

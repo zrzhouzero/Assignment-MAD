@@ -11,29 +11,41 @@ public class EventImpl implements Event, Serializable {
     private Date startDate;
     private Date endDate;
     private String venue;
-    private Location location;
+    private MyLocation myLocation;
     private ArrayList<String> attendees;
     private MovieImpl movie;
 
-    public EventImpl(String id, String title, Date startDate, Date endDate, String venue, Location location) {
+    public EventImpl(String id, String title, Date startDate, Date endDate, String venue, MyLocation myLocation) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.venue = venue;
-        this.location = location;
+        this.myLocation = myLocation;
         this.attendees = new ArrayList<>();
     }
 
-    public EventImpl(String id, String title, Date startDate, Date endDate, String venue, Location location, MovieImpl movie, ArrayList<String> attendees) {
+    public EventImpl(String id, String title, Date startDate, Date endDate, String venue, MyLocation myLocation, MovieImpl movie, ArrayList<String> attendees) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.venue = venue;
-        this.location = location;
+        this.myLocation = myLocation;
         this.movie = movie;
         this.attendees = attendees;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof EventImpl)) return false;
+        EventImpl e = (EventImpl) obj;
+        return e.getId().equals(this.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.equals("") ? 0 : id.hashCode();
     }
 
     @Override
@@ -62,8 +74,8 @@ public class EventImpl implements Event, Serializable {
     }
 
     @Override
-    public Location getLocation() {
-        return location;
+    public MyLocation getMyLocation() {
+        return myLocation;
     }
 
     @Override
@@ -93,6 +105,10 @@ public class EventImpl implements Event, Serializable {
 
     @Override
     public String toString() {
-        return id + " " + title + " " + movie.getTitle() + " " + attendees.size();
+        if (movie != null) {
+            return id + " " + title + " " + movie.getTitle() + " " + attendees.size();
+        } else {
+            return id + " " + title + " null " + attendees.size();
+        }
     }
 }

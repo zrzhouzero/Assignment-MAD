@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
 
     private static final String TAG = "DatabaseHelper";
 
-    private static final String DATABASE_NAME = "MADA1.db";
+    private static final String DATABASE_NAME = "MADA.db";
 
     private static final String MOVIE_TABLE_NAME = "movie_table";
     private static final String MOVIE_COL_1 = "ID";

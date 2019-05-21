@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Date;
 
 public class EventModel {
 
@@ -36,16 +36,12 @@ public class EventModel {
 
     public ArrayList<EventImpl> getSoonest3Events() {
         ArrayList<EventImpl> copiedEvents = new ArrayList<>(this.events);
+        copiedEvents.removeIf(e -> e.getStartDate().compareTo(new Date()) < 0);
 
         ArrayList<EventImpl> result = new ArrayList<>();
-        copiedEvents.sort(new Comparator<EventImpl>() {
-            @Override
-            public int compare(EventImpl o1, EventImpl o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
+        copiedEvents.sort((o1, o2) -> o1.getStartDate().compareTo(o2.getStartDate()));
         if (copiedEvents.size() < 3) {
-            return this.events;
+            return copiedEvents;
         } else {
             for (int i = 0; i < 3; i++) {
                 result.add(copiedEvents.get(i));

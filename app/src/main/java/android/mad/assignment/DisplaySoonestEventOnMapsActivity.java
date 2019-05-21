@@ -3,6 +3,7 @@ package android.mad.assignment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +51,9 @@ public class DisplaySoonestEventOnMapsActivity extends FragmentActivity implemen
             LatLng target = new LatLng(e.getLocation().getLatitude(), e.getLocation().getLongitude());
             mMap.addMarker(new MarkerOptions().position(target).title(e.getTitle()));
         }
+
+        Toast.makeText(getApplicationContext(), String.valueOf(soonestEvents.size()) ,Toast.LENGTH_SHORT).show();
+
         // move camera to Melbourne
         LatLng melbourne = new LatLng(-37.8136, 144.9631);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(melbourne));

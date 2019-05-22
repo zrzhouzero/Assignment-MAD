@@ -185,8 +185,8 @@ public class NotificationService extends Service {
             }
             eventTriggerTime.put(e.getTitle(), c.getTime());
         }
-        System.out.println(eventTriggerTime + " trigger");
-        System.out.println(eventTriggerTime.size() + " trigger time");
+        Log.d(TAG, "updateEventTriggerTime: " + eventTriggerTime);
+        Log.d(TAG, "updateEventTriggerTime: event trigger time size: " + eventTriggerTime.size());
     }
 
 }

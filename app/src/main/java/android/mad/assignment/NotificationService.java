@@ -18,6 +18,8 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
@@ -34,12 +36,12 @@ public class NotificationService extends Service {
     private LocationManager locationManager;
 
     // in milliseconds
-    private int notificationPeriod = ApplicationSettingsHandler.getNotificationPeriod() * 60000;
-    private int threshold = ApplicationSettingsHandler.getThresholdInMinutes() * 60000;
-    private int remindAgainDuration = ApplicationSettingsHandler.getRemindAgainDuration() * 60000;
+    private static int notificationPeriod = ApplicationSettingsHandler.getNotificationPeriod() * 60000;
 
-    private ArrayList<EventImpl> events;
-    private HashMap<EventImpl, Integer> drivingTime;
+    private static ArrayList<EventImpl> events;
+    private static HashMap<EventImpl, Integer> drivingTime;
+    private static HashMap<String, Date> eventTriggerTime = new HashMap<>();
+    private static HashMap<String, Integer> eventOperated = new HashMap<>();
 
     private static final String TAG = "NotificationService";
 
@@ -60,8 +62,17 @@ public class NotificationService extends Service {
             public void onLocationChanged(Location location) {
                 reloadEvents();
                 updateDrivingTime(location);
-                NotificationCompat.Builder nb = helper.getChannelNotification("Notification",  "Test");
-                helper.getManager().notify(NOTIFICATION_ID, nb.build());
+                updateEventTriggerTime();
+
+                for (EventImpl event : events) {
+                    if (eventTriggerTime.containsKey(event.getTitle())) {
+                        if (eventTriggerTime.get(event.getTitle()).compareTo(new Date()) < 0) {
+
+                            NotificationCompat.Builder nb = helper.getChannelNotification("Notification",  event.getTitle(), event);
+                            helper.getManager().notify(NOTIFICATION_ID, nb.build());
+                        }
+                    }
+                }
             }
 
             @Override
@@ -120,11 +131,60 @@ public class NotificationService extends Service {
             o = task.execute(start, end).get();
             duration = o.getJSONArray("rows").getJSONObject(0).getJSONArray("elements").getJSONObject(0).getJSONObject("duration")
                     .getString("text");
-        } catch (ExecutionException | InterruptedException | JSONException e) {
+        } catch (ExecutionException | InterruptedException | JSONException | NullPointerException e) {
             return -1;
         }
         String[] temp = duration.split(" ");
         return Integer.parseInt(temp[0]);
+    }
+
+    public static void remindLater(EventImpl event) {
+        Date d = new Date();
+        Calendar cin = Calendar.getInstance();
+        cin.setTime(d);
+        cin.add(Calendar.MINUTE, ApplicationSettingsHandler.getRemindAgainDuration());
+        eventTriggerTime.put(event.getTitle(), cin.getTime());
+        eventOperated.put(event.getTitle(), 1);
+    }
+
+    public static void dismiss(EventImpl event) {
+        drivingTime.remove(event);
+        eventTriggerTime.remove(event.getTitle());
+        eventOperated.put(event.getTitle(), -1);
+    }
+
+    public static void cancel(EventImpl event) {
+        drivingTime.remove(event);
+        eventTriggerTime.remove(event.getTitle());
+        eventOperated.remove(event.getTitle());
+    }
+
+    private void updateEventTriggerTime() {
+        for (EventImpl e : drivingTime.keySet()) {
+            if (drivingTime.get(e) == null) {
+                continue;
+            }
+            if (drivingTime.get(e) < 0) {
+                continue;
+            }
+            Date triggerDate = e.getStartDate();
+            Calendar c = Calendar.getInstance();
+            c.setTime(triggerDate);
+            c.add(Calendar.MINUTE, -drivingTime.get(e));
+            c.add(Calendar.MINUTE, -ApplicationSettingsHandler.getThresholdInMinutes());
+            if (eventOperated.containsKey(e.getTitle())) {
+                if (eventOperated.get(e.getTitle()) > 0) {
+                    eventOperated.put(e.getTitle(), 1);
+                    continue;
+                } else {
+                    eventOperated.put(e.getTitle(), -1);
+                    continue;
+                }
+            }
+            eventTriggerTime.put(e.getTitle(), c.getTime());
+        }
+        System.out.println(eventTriggerTime + " trigger");
+        System.out.println(eventTriggerTime.size() + " trigger time");
     }
 
 }

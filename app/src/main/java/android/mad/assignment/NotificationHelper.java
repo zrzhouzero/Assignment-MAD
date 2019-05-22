@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import model.EventImpl;
+
 public class NotificationHelper extends ContextWrapper {
 
     public static final String CHANNEL_ID = "channel id";
@@ -43,18 +45,21 @@ public class NotificationHelper extends ContextWrapper {
         return manager;
     }
 
-    public NotificationCompat.Builder getChannelNotification(String title, String message) {
+    public NotificationCompat.Builder getChannelNotification(String title, String message, EventImpl event) {
 
         Intent remindLaterIntent = new Intent(getApplicationContext(), NotificationActionReceiver.class);
         remindLaterIntent.putExtra("action", 0);
+        remindLaterIntent.putExtra("event", event);
         PendingIntent remindLaterPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, remindLaterIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent dismissIntent = new Intent(getApplicationContext(), NotificationActionReceiver.class);
         dismissIntent.putExtra("action", 1);
+        dismissIntent.putExtra("event", event);
         PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent cancelIntent = new Intent(getApplicationContext(), NotificationActionReceiver.class);
         cancelIntent.putExtra("action", 2);
+        cancelIntent.putExtra("event", event);
         PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 2, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)

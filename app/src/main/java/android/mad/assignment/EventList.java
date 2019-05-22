@@ -43,14 +43,18 @@ public class EventList extends AppCompatActivity {
         Log.d(TAG, "onCreate: started.");
 
         myDb = new DatabaseHelper(this);
-        try {
-            myDb.loadMoviesFromFile();
-            myDb.loadEventsFromFile();
-            ApplicationSettingsHandler.readSettingFile();
-        } catch (Exception e) {
-            Log.e(TAG, "load file: failed");
-            e.printStackTrace();
+        if (ApplicationSettingsHandler.check()) {
+            try {
+                myDb.loadMoviesFromFile();
+                myDb.loadEventsFromFile();
+                ApplicationSettingsHandler.changeCheck();
+            } catch (Exception e) {
+                Log.e(TAG, "load file: failed");
+                e.printStackTrace();
+            }
         }
+
+        ApplicationSettingsHandler.readSettingFile();
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -96,9 +100,6 @@ public class EventList extends AppCompatActivity {
         }
 
         runtimePermissions();
-
-        Intent notificationServiceIntent = new Intent(getApplicationContext(), NotificationService.class);
-        startService(notificationServiceIntent);
     }
 
     private void initialiseModel() throws ParseException {
@@ -145,6 +146,11 @@ public class EventList extends AppCompatActivity {
     }
 
     private void sortEventLatestFirst() {
+        try {
+            model.setEvents(myDb.reloadEventList());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         model.getEvents().sort((o1, o2) -> o2.getStartDate().compareTo(o1.getStartDate()));
         reloadRecyclerView();
     }

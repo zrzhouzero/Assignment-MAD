@@ -19,6 +19,7 @@ public class ApplicationSettingsHandler {
 
     private final static File directory = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass");
     private final static File setting_file = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass/settings.txt");
+    private final static File check_file = new File(Environment.getExternalStorageDirectory() + File.separator + "mad_ass/check.txt");
 
     public static int getNotificationPeriod() {
         return notificationPeriod;
@@ -36,12 +37,45 @@ public class ApplicationSettingsHandler {
         if (!directory.exists() && !directory.isDirectory()) {
             if (directory.mkdirs()) {
                 Log.d("Create Setting Dir: ", "App dir created");
-                updateSettings(15, 5, 1);
+                updateSettings(60, 1, 1);
             } else {
                 Log.w("Create Setting Dir: ", "Unable to create app dir!");
             }
         } else {
             Log.i("Create Setting Dir: ", "App dir already exists");
+        }
+    }
+
+    public static boolean check() {
+        if (!directory.exists() && !directory.isDirectory()) {
+            if (directory.mkdirs()) {
+                Log.d("Create Setting Dir: ", "App dir created");
+                try {
+                    PrintWriter writer = new PrintWriter(new FileWriter(check_file, false));
+                    writer.println("0");
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            } else return false;
+        } else {
+            String temp;
+            try (Scanner sc = new Scanner(check_file)) {
+                temp = sc.nextLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return true;
+            }
+            return temp.equals("0");
+        }
+    }
+
+    public static void changeCheck() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(check_file, false))) {
+            writer.println("1");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

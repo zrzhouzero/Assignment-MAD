@@ -13,6 +13,10 @@ public class EventModel {
         this.events = events;
     }
 
+    public void setEvents(ArrayList<EventImpl> events) {
+        this.events = events;
+    }
+
     public ArrayList<EventImpl> getEvents() {
         return events;
     }

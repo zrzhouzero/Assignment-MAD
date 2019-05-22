@@ -45,9 +45,9 @@ public class SettingPageFragment extends DialogFragment {
 
         Button saveButton = view.findViewById(R.id.setting_page_save_button);
         saveButton.setOnClickListener(l -> {
-            int t = 15;
-            int r = 5;
-            int p = 10;
+            int t = ApplicationSettingsHandler.getThresholdInMinutes();
+            int r = ApplicationSettingsHandler.getRemindAgainDuration();
+            int p = ApplicationSettingsHandler.getNotificationPeriod();
             try {
                 t = Integer.parseInt(threshold.getText().toString());
             } catch (Exception e) {

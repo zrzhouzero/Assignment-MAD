@@ -1,4 +1,4 @@
-package android.mad.assignment;
+package android.mad.assignment.task;
 
 import android.content.Context;
 import android.os.AsyncTask;

@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <receiver android:name="android.mad.assignment.NetworkStatusChangeReceiver">
+        <receiver android:name="android.mad.assignment.receiver.NetworkStatusChangeReceiver">
             <intent-filter>
                 <action android:name="android.NET.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.Net.wifi.WIFI_STATE_CHANGED" />
@@ -32,14 +32,14 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".NotificationActionReceiver"  android:exported="true">
+        <receiver android:name=".receiver.NotificationActionReceiver"  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".NotificationService" />
+        <service android:name=".service.NotificationService" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

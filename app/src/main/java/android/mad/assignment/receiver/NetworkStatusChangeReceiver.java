@@ -1,8 +1,10 @@
-package android.mad.assignment;
+package android.mad.assignment.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.mad.assignment.service.NotificationService;
+import android.mad.assignment.R;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;

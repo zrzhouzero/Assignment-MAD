@@ -1,9 +1,10 @@
-package android.mad.assignment;
+package android.mad.assignment.receiver;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.mad.assignment.service.NotificationService;
 import android.widget.Toast;
 
 import database.DatabaseHelper;

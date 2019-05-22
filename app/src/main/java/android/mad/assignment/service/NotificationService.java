@@ -1,4 +1,4 @@
-package android.mad.assignment;
+package android.mad.assignment.service;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.mad.assignment.NotificationHelper;
+import android.mad.assignment.task.DurationTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;

@@ -1,7 +1,9 @@
-package android.mad.assignment;
+package android.mad.assignment.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.mad.assignment.EventDetail;
+import android.mad.assignment.R;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;

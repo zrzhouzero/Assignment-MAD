@@ -1,39 +1,16 @@
 package model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class EventImpl implements Event, Serializable {
-
-    private String id;
-    private String title;
-    private Date startDate;
-    private Date endDate;
-    private String venue;
-    private MyLocation myLocation;
-    private ArrayList<String> attendees;
-    private MovieImpl movie;
+public class EventImpl extends AbstractEvent {
 
     public EventImpl(String id, String title, Date startDate, Date endDate, String venue, MyLocation myLocation) {
-        this.id = id;
-        this.title = title;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.venue = venue;
-        this.myLocation = myLocation;
-        this.attendees = new ArrayList<>();
+        super(id, title, startDate, endDate, venue, myLocation);
     }
 
     public EventImpl(String id, String title, Date startDate, Date endDate, String venue, MyLocation myLocation, MovieImpl movie, ArrayList<String> attendees) {
-        this.id = id;
-        this.title = title;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.venue = venue;
-        this.myLocation = myLocation;
-        this.movie = movie;
-        this.attendees = attendees;
+        super(id, title, startDate, endDate, venue, myLocation, movie, attendees);
     }
 
     @Override

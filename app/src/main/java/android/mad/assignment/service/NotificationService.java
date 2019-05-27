@@ -71,7 +71,10 @@ public class NotificationService extends Service {
                         if (eventTriggerTime.get(event.getTitle()).compareTo(new Date()) < 0) {
 
                             NotificationCompat.Builder nb = helper.getChannelNotification("Notification",  event.getTitle(), event);
-                            helper.getManager().notify(NOTIFICATION_ID, nb.build());
+                            // this approach shows only one notification
+                            // helper.getManager().notify(NOTIFICATION_ID, nb.build());
+                            // this approach shows multiple notifications
+                            helper.getManager().notify(event.getId().hashCode(), nb.build());
                         }
                     }
                 }

@@ -46,7 +46,7 @@ public class MyMovieImpListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        @SuppressLint("ViewHolder") View v = inflater.inflate(R.layout.fragment_movieimp, null);
+        @SuppressLint({"ViewHolder", "InflateParams"}) View v = inflater.inflate(R.layout.fragment_movieimp, null);
         TextView movieNameLabelInDialogue = v.findViewById(R.id.movie_name_in_dialogue_list);
         Button movieDetailButtonInDialogue = v.findViewById(R.id.movie_detail_button_in_dialogue);
 

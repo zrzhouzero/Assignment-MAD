@@ -70,7 +70,7 @@ public class EventList extends AppCompatActivity {
         sortEventButton.setOnClickListener(v -> sortEventLatestFirst());
 
         Button settingButton = findViewById(R.id.setting_button);
-        settingButton.setOnClickListener(l -> {
+        settingButton.setOnClickListener(v -> {
             FragmentManager manager = getSupportFragmentManager();
             SettingPageFragment fragment = new SettingPageFragment();
             fragment.show(manager, "settings");
